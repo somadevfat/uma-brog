@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400&family=Roboto+Mono:wght@100;300&display=swap");
+
+:root {
+  --bg-color: #0a0a0a;
+  --text-primary: #ffffff;
+  --text-secondary: #666666;
+  --accent-red: #e60012;
+  --accent-glow: 0 0 8px #e60012;
+  --grid-line: rgba(255, 255, 255, 0.05);
+  --border-line: rgba(255, 255, 255, 0.2);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: "Inter", "Noto Sans JP", sans-serif;
+  font-weight: 300;
+  line-height: 1.6;
+  letter-spacing: 0.1em;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+.bg-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  background-size: 40px 40px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+.mono {
+  font-family: "Roboto Mono", monospace;
+  font-weight: 100;
+  text-transform: uppercase;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent-red);
+}
+
+.blueprint-border {
+  border: 1px solid var(--border-line);
+}
+
+.accent-border {
+  border-bottom: 1px solid var(--accent-red);
+}
+
+.btn-blueprint {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  border: 1px solid var(--text-primary);
+  background: transparent;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-blueprint:hover {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  box-shadow: var(--accent-glow);
+}
+
+/* Scanline Effect */
+.scanline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
+  background-size: 100% 4px;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0.3;
+}
