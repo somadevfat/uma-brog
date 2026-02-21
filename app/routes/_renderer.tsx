@@ -2,7 +2,7 @@ import { jsxRenderer } from 'hono/jsx-renderer'
 import { Link, Script } from 'honox/server'
 import { Nav } from '../../src/components/nav'
 
-export default jsxRenderer(({ children }) => {
+export default jsxRenderer(({ children }, c) => {
   return (
     <html lang="en">
       <head>
@@ -15,10 +15,15 @@ export default jsxRenderer(({ children }) => {
         <Script src="/app/client.ts" async />
       </head>
       <body>
-        <div class="bg-grid" />
         <div class="scanline" />
-        <Nav />
-        <main>{children}</main>
+        <Nav path={c.req.path} />
+        <main class="container">{children}</main>
+        
+        <div class="floating-star">
+          <svg viewBox="0 0 50 50" fill="#666">
+            <path d="M25 0 L28 22 L50 25 L28 28 L25 50 L22 28 L0 25 L22 22 Z" />
+          </svg>
+        </div>
       </body>
     </html>
   )

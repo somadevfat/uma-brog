@@ -21,7 +21,7 @@ export default createRoute(async (c) => {
   const Content = post.content
 
   return c.render(
-    <div class="px-6 py-12 max-w-4xl mx-auto">
+    <div class="py-12">
       <header class="mb-12">
         <div class="flex items-center gap-4 mb-4 text-secondary mono text-xs uppercase">
           <span>{post.category}</span>

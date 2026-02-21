@@ -3,7 +3,7 @@ import ContactForm from '../islands/contact-form'
 
 export default createRoute((c) => {
   return c.render(
-    <div class="px-6 py-12 max-w-4xl mx-auto">
+    <div class="py-12">
       <header class="mb-16">
         <h1 class="text-4xl font-thin mb-2 tracking-widest uppercase">SIGNAL_STATION</h1>
         <div class="h-1 bg-accent-red w-24"></div>

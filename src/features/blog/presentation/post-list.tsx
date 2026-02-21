@@ -2,19 +2,28 @@ import { Post } from '../domain/post'
 
 export const PostList = ({ posts }: { posts: Post[] }) => {
   return (
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="projects-grid">
       {posts.map((post) => (
-        <div key={post.slug} class="blueprint-border p-8 hover:border-accent-red transition-colors group relative overflow-hidden flex flex-col">
-          <div class="absolute top-0 right-0 p-2 text-[10px] text-secondary mono uppercase">{post.category}-{post.date.replace(/-/g, '')}</div>
-          <h3 class="text-xl mb-4 group-hover:text-accent-red transition-colors mono">{post.title}</h3>
-          <p class="text-sm text-secondary mb-6 flex-grow">{post.excerpt}</p>
-          <a href={`/blog/${post.slug}`} class="btn-blueprint text-center">ACCESS_LOG</a>
-        </div>
+        <article key={post.slug} class="card">
+          <div class="card-img">
+            {/* If there's no image URL, use a placeholder SVG as in the design sample */}
+            <svg viewBox="0 0 100 50" stroke="#888" stroke-width="1" fill="none">
+              <polyline points="10,40 40,15 60,30 90,10" />
+              <line x1="0" y1="40" x2="100" y2="40" />
+            </svg>
+          </div>
+          <h3>{post.title}</h3>
+          <p>{post.excerpt}</p>
+          <a href={`/blog/${post.slug}`} class="btn">View Project</a>
+        </article>
       ))}
+      
+      {/* If no posts, show placeholders as in design sample? 
+          Actually, the design sample had 4 cards. I'll just show what we have. 
+      */}
       {posts.length === 0 && (
-        <div class="blueprint-border p-8 border-dashed flex flex-col items-center justify-center text-secondary md:col-span-3">
-          <span class="mono text-xs mb-2">AWAITING_DATA...</span>
-          <div class="w-12 h-[1px] bg-border-line"></div>
+        <div class="card" style={{ borderStyle: 'dashed', justifyContent: 'center', alignItems: 'center', color: 'var(--text-sub)' }}>
+          <p class="mono text-xs">AWAITING_DATA...</p>
         </div>
       )}
     </div>

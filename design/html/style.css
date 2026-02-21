@@ -1,0 +1,219 @@
+/* ベース設定とグリッド背景 */
+:root {
+    --bg-color: #1e1e1e;
+    --grid-color: rgba(255, 255, 255, 0.05);
+    --text-main: #ffffff;
+    --text-sub: #a0a0a0;
+    --accent-red: #c93a3a;
+    --border-color: #444444;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: var(--bg-color);
+    background-image: 
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 30px 30px;
+    color: var(--text-main);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ヘッダー */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+nav {
+    display: flex;
+    gap: 40px;
+}
+
+nav a {
+    color: var(--text-sub);
+    text-decoration: none;
+    font-size: 14px;
+    padding-bottom: 5px;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: var(--text-main);
+}
+
+nav a.active {
+    color: var(--text-main);
+    border-bottom: 2px solid var(--accent-red);
+}
+
+.search-icon {
+    cursor: pointer;
+}
+
+/* ヒーローセクション */
+.hero {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    margin: 30px 0 60px 0;
+    border: 1px solid var(--border-color);
+    background-color: #2a2a2a; /* 実際の画像を入れるまでのプレースホルダー色 */
+    overflow: hidden;
+}
+
+/* 画像をはめ込む場合はこちらを使用
+.hero-bg-placeholder {
+    background-image: url('your-image.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100%;
+    opacity: 0.8;
+}
+*/
+
+.hero-content {
+    position: absolute;
+    top: 40px;
+    left: 60px;
+    z-index: 2;
+}
+
+.hero h1 {
+    font-size: 32px;
+    font-weight: normal;
+    margin: 0 0 10px 0;
+    letter-spacing: 2px;
+}
+
+.hero p {
+    font-size: 14px;
+    color: var(--text-sub);
+    margin: 0;
+    letter-spacing: 1px;
+}
+
+/* プロジェクトセクション */
+.section-title {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0 0 30px 0;
+    display: inline-block;
+    border-bottom: 3px solid var(--accent-red);
+    padding-bottom: 5px;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding-bottom: 60px;
+}
+
+.card {
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(30, 30, 30, 0.7); /* 背景グリッドをわずかに透かす */
+}
+
+.card-img {
+    border: 1px solid var(--border-color);
+    height: 120px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-img svg {
+    width: 80%;
+    height: 80%;
+}
+
+.card h3 {
+    font-size: 14px;
+    margin: 0 0 10px 0;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.card p {
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.5;
+    margin: 0 0 20px 0;
+    flex-grow: 1; /* ボタンを下部に押しやる */
+}
+
+.btn {
+    background: transparent;
+    color: var(--text-sub);
+    border: 1px solid var(--accent-red);
+    padding: 8px 0;
+    width: 120px;
+    align-self: center;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    color: var(--text-main);
+    background-color: rgba(201, 58, 58, 0.2);
+}
+
+/* 画面右下の星型アイコン */
+.floating-star {
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+}
+
+/* レスポンシブ対応（画面が狭い場合） */
+@media (max-width: 900px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    nav {
+        display: none; /* スマホではハンバーガーメニュー等にする前提で非表示 */
+    }
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    .hero-content {
+        left: 20px;
+        right: 20px;
+    }
+    .hero h1 {
+        font-size: 24px;
+    }
+}
