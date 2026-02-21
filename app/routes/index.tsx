@@ -5,7 +5,7 @@ import { PostList } from '../../src/features/blog/presentation/post-list'
 export default createRoute(async (c) => {
   const posts = await getPostsUseCase.execute()
   return c.render(
-    <div>
+    <div class="py-12">
       <section class="hero">
         <div class="hero-bg-placeholder"></div>
         <div class="hero-content">

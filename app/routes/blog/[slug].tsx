@@ -23,13 +23,13 @@ export default createRoute(async (c) => {
   return c.render(
     <div class="py-12">
       <header class="mb-12">
-        <div class="flex items-center gap-4 mb-4 text-secondary mono text-xs uppercase">
+        <div class="flex items-center gap-4 mb-4 text-sub mono text-xs uppercase">
           <span>{post.category}</span>
-          <div class="w-1 h-1 bg-border-line rounded-full"></div>
+          <div class="w-1 h-1 bg-border-color rounded-full"></div>
           <span>{post.date}</span>
         </div>
-        <h1 class="text-3xl font-thin tracking-widest uppercase mb-4">{post.title}</h1>
-        <div class="h-1 bg-accent-red w-32"></div>
+        <h1 class="text-3xl font-normal tracking-wider uppercase mb-4">{post.title}</h1>
+        <div class="h-[2px] bg-accent-red w-20"></div>
       </header>
 
       <article class="mdx-content blueprint-border p-8 bg-[#0D0D0D]">

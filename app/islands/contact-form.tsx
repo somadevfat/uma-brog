@@ -56,27 +56,27 @@ export default function ContactForm() {
       <div class="absolute top-0 right-0 p-2 text-[10px] text-secondary mono">TERMINAL_REF: SIG-B1</div>
       <form onSubmit={handleSubmit} class="space-y-6">
         <div>
-          <label class="block mono text-xs mb-2">IDENTIFIER / NAME</label>
-          <input name="senderName" required class="w-full bg-transparent border border-border-line p-2 text-sm focus:border-accent-red outline-none" />
+          <label class="block mono text-[10px] text-sub mb-2">IDENTIFIER / NAME</label>
+          <input name="senderName" required placeholder="TYPE_YOUR_NAME" class="w-full resize-none" />
         </div>
         <div>
-          <label class="block mono text-xs mb-2">RETURN_PATH / EMAIL</label>
-          <input name="senderEmail" type="email" required class="w-full bg-transparent border border-border-line p-2 text-sm focus:border-accent-red outline-none" />
+          <label class="block mono text-[10px] text-sub mb-2">RETURN_PATH / EMAIL</label>
+          <input name="senderEmail" type="email" required placeholder="EMAIL_ADDRESS@EXAMPLE.COM" class="w-full resize-none" />
         </div>
         <div>
-          <label class="block mono text-xs mb-2">SIGNAL_SUBJECT</label>
-          <input name="subject" required class="w-full bg-transparent border border-border-line p-2 text-sm focus:border-accent-red outline-none" />
+          <label class="block mono text-[10px] text-sub mb-2">SIGNAL_SUBJECT</label>
+          <input name="subject" required placeholder="SIGNAL_TITLE" class="w-full resize-none" />
         </div>
         <div>
-          <label class="block mono text-xs mb-2">DATALINK_BODY</label>
-          <textarea name="body" required rows={5} class="w-full bg-transparent border border-border-line p-2 text-sm focus:border-accent-red outline-none resize-none" />
+          <label class="block mono text-[10px] text-sub mb-2">DATALINK_BODY</label>
+          <textarea name="body" required rows={6} placeholder="ENTER_TRANSMISSION_DATA_HERE..." class="w-full resize-none" />
         </div>
         
         <div class="flex items-center justify-between pt-4">
-          <div class="mono text-[10px] text-secondary">
+          <div class="mono text-[10px] text-sub">
              {status === 'TRANSMITTING' ? 'STATUS: TRANSMITTING...' : 'STATUS: READY_TO_SEND'}
           </div>
-          <button type="submit" disabled={status === 'TRANSMITTING'} class="btn-blueprint disabled:opacity-50">
+          <button type="submit" disabled={status === 'TRANSMITTING'} class="btn disabled-opacity-50" style={{ width: 'auto', paddingLeft: '20px', paddingRight: '20px' }}>
             {status === 'TRANSMITTING' ? 'SENDING...' : 'INITIATE_TRANSMISSION'}
           </button>
         </div>

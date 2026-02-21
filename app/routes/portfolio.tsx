@@ -7,11 +7,10 @@ export default createRoute(async (c) => {
   const projects = await repo.findAll()
 
   return c.render(
-    <div class="px-6 py-12 max-w-6xl mx-auto">
-      <header class="mb-16">
-        <h1 class="text-4xl font-thin mb-2 tracking-widest uppercase">PROJECT_BLUEPRINTS</h1>
-        <div class="h-1 bg-accent-red w-24"></div>
-        <p class="text-secondary mono text-sm mt-4">Detailed technical specifications and implementation results.</p>
+    <div class="py-12">
+      <header class="mb-12">
+        <h2 class="section-title">PROJECT_BLUEPRINTS</h2>
+        <p class="text-sub font-xs mono mt-4">Detailed technical specifications and implementation results.</p>
       </header>
 
       <ProjectGrid projects={projects} />

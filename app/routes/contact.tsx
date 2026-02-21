@@ -4,14 +4,13 @@ import ContactForm from '../islands/contact-form'
 export default createRoute((c) => {
   return c.render(
     <div class="py-12">
-      <header class="mb-16">
-        <h1 class="text-4xl font-thin mb-2 tracking-widest uppercase">SIGNAL_STATION</h1>
-        <div class="h-1 bg-accent-red w-24"></div>
-        <p class="text-secondary mono text-sm mt-4">Establish an uplink to the archive administrator.</p>
+      <header class="mb-12">
+        <h2 class="section-title">SIGNAL_STATION</h2>
+        <p class="text-sub font-xs mono mt-4">Establish an uplink to the archive administrator.</p>
       </header>
 
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div class="md:col-span-2">
+      <div class="grid grid-cols-1 md-grid-cols-3 gap-12">
+        <div class="md-col-span-2">
           <ContactForm />
         </div>
         

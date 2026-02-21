@@ -2,7 +2,7 @@ import { Message } from '../../contact/domain/message'
 
 export const AdminDashboard = ({ messages }: { messages: Message[] }) => {
   return (
-    <div class="px-6 py-12 max-w-6xl mx-auto">
+    <div class="py-12">
       <header class="mb-12 border-b border-accent-red pb-4">
         <h1 class="text-3xl font-thin tracking-widest uppercase">STRATEGIC_MANAGEMENT_CONSOLE</h1>
         <p class="mono text-[10px] text-accent-red mt-2">ACCESS_LEVEL: AUTHORIZED_ONLY</p>
