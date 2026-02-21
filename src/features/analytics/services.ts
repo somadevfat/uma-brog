@@ -1,14 +1,9 @@
-import { createDb } from '../../../lib/db/client'
-import { viewCounts } from '../../../lib/db/schema'
+import { viewCounts } from '../../db/schema'
 import { eq, sql } from 'drizzle-orm'
+import { DrizzleDB } from '../../db/client'
 
-export class ViewCountRepository {
-  constructor(private d1: D1Database) {}
-
-  async increment(slug: string): Promise<number> {
-    const db = createDb(this.d1)
-    
-    // Upsert equivalent in SQLite/Drizzle
+export const analyticsService = {
+  async incrementViewCount(db: DrizzleDB, slug: string): Promise<number> {
     const existing = await db.select().from(viewCounts).where(eq(viewCounts.slug, slug)).get()
     
     if (existing) {
@@ -32,10 +27,9 @@ export class ViewCountRepository {
         .get()
       return inserted?.count ?? 1
     }
-  }
+  },
 
-  async get(slug: string): Promise<number> {
-    const db = createDb(this.d1)
+  async getViewCount(db: DrizzleDB, slug: string): Promise<number> {
     const result = await db.select({ count: viewCounts.count }).from(viewCounts).where(eq(viewCounts.slug, slug)).get()
     return result?.count ?? 0
   }

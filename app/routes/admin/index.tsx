@@ -1,18 +1,16 @@
 import { createRoute } from 'honox/factory'
-import { AdminDashboard } from '../../../src/features/admin/presentation/admin-dashboard'
-import { createDb } from '../../../src/lib/db/client'
-import { messages } from '../../../src/lib/db/schema'
-import { desc } from 'drizzle-orm'
+import { AdminDashboard } from '../../../src/features/admin/admin-dashboard'
+import { contactService } from '../../../src/features/contact/services'
 
 export default createRoute(async (c) => {
-  if (!c.env.DB) {
+  const db = c.var.db
+  if (!db) {
     return c.notFound()
   }
 
-  const db = createDb(c.env.DB)
-  const allMessages = await db.select().from(messages).orderBy(desc(messages.createdAt)).all()
+  const allMessages = await contactService.getAllMessages(db)
 
   return c.render(
-    <AdminDashboard messages={allMessages as any[]} />
+    <AdminDashboard messages={allMessages} />
   )
 })

@@ -1,8 +1,10 @@
-import {} from 'hono'
+import { DrizzleDB } from '../src/db/client'
 
 declare module 'hono' {
   interface Env {
-    Variables: {}
+    Variables: {
+      db: DrizzleDB
+    }
     Bindings: {
       DB: D1Database
     }

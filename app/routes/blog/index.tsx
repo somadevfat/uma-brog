@@ -1,9 +1,9 @@
 import { createRoute } from 'honox/factory'
-import { getPostsUseCase } from '../../../src/features/blog/blog.factory'
-import { PostList } from '../../../src/features/blog/presentation/post-list'
+import { blogService } from '../../../src/features/blog/services'
+import { PostList } from '../../../src/features/blog/post-list'
 
 export default createRoute(async (c) => {
-  const posts = await getPostsUseCase.execute()
+  const posts = await blogService.getAllPosts()
   return c.render(
     <div class="py-12">
       <header class="mb-12">

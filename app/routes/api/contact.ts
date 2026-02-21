@@ -1,6 +1,5 @@
 import { createRoute } from 'honox/factory'
-import { ContactRepository } from '../../../src/features/contact/infrastructure/contact-repository'
-import { SendMessageUseCase } from '../../../src/features/contact/application/send-message'
+import { contactService } from '../../../src/features/contact/services'
 import { zValidator } from '@hono/zod-validator'
 import { z } from 'zod'
 
@@ -16,17 +15,17 @@ export const POST = createRoute(
   async (c) => {
     const data = c.req.valid('json')
     
-    // We can't use c.env in standard Route if not provided by bindings
-    // But in Cloudflare Pages, it's there.
-    if (!c.env.DB) {
+    const db = c.var.db
+    if (!db) {
       return c.json({ error: 'Database not available' }, 500)
     }
 
-    const repository = new ContactRepository(c.env.DB) // Can add Webhook URL here if needed
-    const useCase = new SendMessageUseCase(repository)
-
     try {
-      await useCase.execute(data)
+      await contactService.sendMessage(db, {
+        ...data,
+        id: crypto.randomUUID(),
+        createdAt: new Date()
+      })
       return c.json({ success: true })
     } catch (err) {
       return c.json({ success: false }, 500)

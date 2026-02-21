@@ -1,4 +1,4 @@
-import { Post } from '../domain/post'
+import { Post } from './types'
 
 export const PostList = ({ posts }: { posts: Post[] }) => {
   return (

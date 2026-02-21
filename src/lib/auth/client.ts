@@ -1,6 +1,6 @@
 import { betterAuth } from 'better-auth'
 import { drizzleAdapter } from 'better-auth/adapters/drizzle'
-import { createDb } from '../db/client'
+import { createDb } from '../../db/client'
 
 // Use a local interface to match Hono's Env or import it
 interface Env {

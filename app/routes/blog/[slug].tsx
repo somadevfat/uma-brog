@@ -1,11 +1,11 @@
 import { createRoute } from 'honox/factory'
-import { getPostBySlugUseCase } from '../../../src/features/blog/blog.factory'
-import { ViewCountRepository } from '../../../src/features/analytics/infra/view-count-repository'
+import { blogService } from '../../../src/features/blog/services'
+import { analyticsService } from '../../../src/features/analytics/services'
 
 export default createRoute(async (c) => {
   const slug = c.req.param('slug')
   if (!slug) return c.notFound()
-  const post = await getPostBySlugUseCase.execute(slug)
+  const post = await blogService.getPostBySlug(slug)
 
   if (!post) {
     return c.notFound()
@@ -13,9 +13,9 @@ export default createRoute(async (c) => {
 
   // Increment view count if DB is available
   let viewCount = 0
-  if (c.env.DB) {
-    const viewRepo = new ViewCountRepository(c.env.DB)
-    viewCount = await viewRepo.increment(slug)
+  const db = c.var.db
+  if (db) {
+    viewCount = await analyticsService.incrementViewCount(db, slug)
   }
 
   const Content = post.content

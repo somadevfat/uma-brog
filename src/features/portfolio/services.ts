@@ -1,7 +1,7 @@
-import { Project, IPortfolioRepository } from '../domain/project'
+import { Project } from './types'
 
-export class PortfolioRepository implements IPortfolioRepository {
-  async findAll(): Promise<Project[]> {
+export const portfolioService = {
+  async getAllProjects(): Promise<Project[]> {
     return [
       {
         id: 'uma-brog',

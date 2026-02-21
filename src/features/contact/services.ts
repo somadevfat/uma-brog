@@ -1,12 +1,11 @@
-import { IContactRepository, Message } from '../domain/message'
-import { createDb } from '../../../lib/db/client'
-import { messages } from '../../../lib/db/schema'
+import { messages } from '../../db/schema'
+import { desc, InferSelectModel } from 'drizzle-orm'
+import { DrizzleDB } from '../../db/client'
 
-export class ContactRepository implements IContactRepository {
-  constructor(private d1: D1Database, private webhookUrl?: string) {}
+export type Message = InferSelectModel<typeof messages>
 
-  async save(message: Message): Promise<void> {
-    const db = createDb(this.d1)
+export const contactService = {
+  async sendMessage(db: DrizzleDB, message: Message, webhookUrl?: string): Promise<void> {
     await db.insert(messages).values({
       id: message.id,
       senderName: message.senderName,
@@ -16,8 +15,8 @@ export class ContactRepository implements IContactRepository {
       createdAt: message.createdAt,
     })
 
-    if (this.webhookUrl) {
-      await fetch(this.webhookUrl, {
+    if (webhookUrl) {
+      await fetch(webhookUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -25,5 +24,9 @@ export class ContactRepository implements IContactRepository {
         })
       })
     }
+  },
+
+  async getAllMessages(db: DrizzleDB): Promise<Message[]> {
+    return await db.select().from(messages).orderBy(desc(messages.createdAt))
   }
 }

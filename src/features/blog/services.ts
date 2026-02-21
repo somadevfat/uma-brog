@@ -1,7 +1,7 @@
-import { Post, IPostRepository } from '../domain/post'
+import { Post } from './types'
 
-export class PostRepository implements IPostRepository {
-  async findAll(): Promise<Post[]> {
+export const blogService = {
+  async getAllPosts(): Promise<Post[]> {
     const posts = import.meta.glob<{
       frontmatter: { title: string; date: string; excerpt: string; category: Post['category'] }
       default: any
@@ -18,10 +18,10 @@ export class PostRepository implements IPostRepository {
         content: module.default,
       }
     }).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-  }
+  },
 
-  async findBySlug(slug: string): Promise<Post | undefined> {
-    const all = await this.findAll()
+  async getPostBySlug(slug: string): Promise<Post | undefined> {
+    const all = await this.getAllPosts()
     return all.find(p => p.slug === slug)
   }
 }

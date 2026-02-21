@@ -1,4 +1,4 @@
-import { Project } from '../domain/project'
+import { Project } from './types'
 
 export const ProjectGrid = ({ projects }: { projects: Project[] }) => {
   return (

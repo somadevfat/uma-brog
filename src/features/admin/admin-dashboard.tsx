@@ -1,4 +1,4 @@
-import { Message } from '../../contact/domain/message'
+import { Message } from '../contact/services'
 
 export const AdminDashboard = ({ messages }: { messages: Message[] }) => {
   return (
