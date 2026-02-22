@@ -2,42 +2,55 @@
 
 ここでは、高品質なテストを作成するための具体的なコードパターンを紹介します。
 
-## 1. サービスのテスト例
+## 1. サービスのテスト例（ロンドン学派：モック主義）
 
-HonoX / Drizzle 環境でのサービス層のテスト例です。
+外部依存（ここでは `db`）をモックにし、サービス層のロジックのみを隔離して検証する例です。
 
 ```typescript
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { postService } from './post-service';
-import { db } from '../../db';
+import * as dbModule from '../../db'; // モック対象
+
+// ## Arrange ##
+// 外部依存をモック化（ロンドン学派の基本）
+vi.mock('../../db', () => ({
+  db: {
+    insert: vi.fn().mockReturnThis(),
+    values: vi.fn(),
+  },
+}));
 
 describe('postService.createPost()：投稿作成ロジックの検証', () => {
-  // ## Arrange ##
-  // 共通の準備が必要な場合は beforeEach 等を使用
   const mockPostData = {
     title: 'テストタイトル',
     content: 'テスト内容',
   };
 
-  it('正常なデータで投稿が作成され、データが永続化されること', async () => {
+  it('正常なデータで投稿が作成され、DB保存メソッドが正しく呼ばれること', async () => {
     // ## Arrange ##
-    // バリデーションやDB挿入のモックが必要な場合はここで設定
+    // モックの戻り値を設定
+    const mockCreatedPost = { id: 1, ...mockPostData };
+    vi.mocked(dbModule.db.values).mockResolvedValue([mockCreatedPost] as any);
 
     // ## Act ##
     const result = await postService.createPost(mockPostData);
 
     // ## Assert ##
-    expect(result.id).toBeDefined();
-    expect(result.title).toBe(mockPostData.title);
+    expect(result.id).toBe(1);
+    // 依存オブジェクトとの「相互作用」を検証
+    expect(dbModule.db.insert).toHaveBeenCalled();
+    expect(dbModule.db.values).toHaveBeenCalledWith(mockPostData);
   });
 
-  it('タイトルが空の場合にバリデーションエラーをスローすること', async () => {
+  it('タイトルが空の場合、DB保存を呼ばずにエラーをスローすること', async () => {
     // ## Arrange ##
     const invalidData = { ...mockPostData, title: '' };
+    vi.clearAllMocks();
 
     // ## Act & Assert ##
-    // エラーのスローを検証する場合は、ActとAssertが重なる場合もある
     await expect(postService.createPost(invalidData)).rejects.toThrow('Title is required');
+    // 相互作用の検証：エラー時はDB保存が呼ばれていないこと
+    expect(dbModule.db.insert).not.toHaveBeenCalled();
   });
 });
 ```
