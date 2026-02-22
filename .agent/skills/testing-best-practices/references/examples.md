@@ -5,6 +5,7 @@
 ## 1. サービスのテスト例（ロンドン学派：モック主義）
 
 外部依存（ここでは `db`）をモックにし、サービス層のロジックのみを隔離して検証する例です。
+配置場所: `src/features/post/tests/post-service.test.ts`
 
 ```typescript
 import { describe, it, expect, beforeEach, vi } from 'vitest';
@@ -58,6 +59,7 @@ describe('postService.createPost()：投稿作成ロジックの検証', () => {
 ## 2. カバレッジ100%のための網羅的なテスト
 
 条件分岐がある場合の網羅的なテスト例です。
+配置場所: `src/utils/tests/auth.test.ts`
 
 ```typescript
 /**
