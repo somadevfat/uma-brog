@@ -9,11 +9,12 @@ declare module 'hono' {
    * コンテキストレンダラーの型定義。
    * JSX を Response に変換します。
    */
-  // biome-ignore lint: Hono requires interface for module augmentation
-  type ContextRenderer = (
-    children: Child,
-    props?: { title?: string; description?: string }
-  ) => Response | Promise<Response>
+  interface ContextRenderer {
+    (
+      children: Child,
+      props?: { title?: string; description?: string }
+    ): Response | Promise<Response>
+  }
 
   /**
    * Hono の環境変数（Variables と Bindings）の型定義。

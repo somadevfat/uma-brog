@@ -71,7 +71,8 @@
       "linter": {
         "rules": {
           "style": {
-            "useNamingConvention": "off"
+            "useNamingConvention": "off",
+            "useShorthandFunctionType": "off"
           }
         }
       }
