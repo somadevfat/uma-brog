@@ -33,6 +33,13 @@ lerna-debug.log*
 # misc
 .DS_Store
 coverage/
+coverage*.txt
+coverage_report.txt
+coverage_output.txt
+final*.txt
+full_coverage.txt
+# Test results
+tests_output.txt
 
 # Python
 __pycache__/
