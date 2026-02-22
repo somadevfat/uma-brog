@@ -10,33 +10,28 @@
 `src/` 配下を役割ごとに整理し、Drizzleスキーマをプロジェクトの「唯一の真実（Single Source of Truth）」とします。
 
 ```text
+app/                     # 【HonoX Root】ルーティングとIslands
+├── routes/              # SSRされるページ・APIルート
+├── islands/             # クライアントサイド JS (Hydration部品)
+├── _renderer.tsx        # レイアウト定義（Layoutコンポーネントの呼び出し）
+├── server.ts            # Hono アプリのエントリーポイント
+└── client.ts            # クライアントサイドのエントリーポイント
+
 src/
-├── app/                  # 【Presentation】HonoX 固有のルーティング領域
-│   ├── routes/           # SSRされるページ・APIルート（薄い口として機能）
-│   ├── islands/          # クライアントサイド JS (Hydration部品)
-│   ├── _renderer.tsx     # レイアウト定義（Layoutコンポーネントの呼び出し）
-│   └── client.ts         # エントリーポイント
-│
-├── db/                   # 【Database Core】Drizzle 関連
-│   ├── schema/           # テーブル定義
-│   │   ├── index.ts      # すべてを統合して export (drizzle-zod によるバリデーションも含む)
-│   │   ├── analytics.ts
-│   │   └── messages.ts
-│   └── client.ts         # Drizzle インスタンス初期化
-│
-├── features/             # 【Feature Logic】機能ごとのロジックと専用UI
-│   ├── blog/             # ブログ機能 (services, types, components)
-│   ├── contact/          # お問い合わせ機能
-│   └── analytics/        # 解析機能
-│
-├── components/           # 【Shared UI】
-│   ├── layout/           # サイト全体の構造（HTML Shell, Main Layout）
-│   ├── system/           # システム共通部品（Error Page, 404 Page）
-│   └── ui/               # 汎用部品（Nav, Button, etc.）
-│
-├── lib/                  # 【Utilities】共通基盤 (Auth, Error Handling)
-└── content/              # 【Static Content】MDXファイル等
+├── constants/           # 【Constants】サイト名、ページネーション数などの固定値
+├── utils/               # 【Utilities】日付フォーマットなどの純粋関数（外部依存なし）
+├── lib/                 # 【Libraries】外部SDKやDB初期化のラッパー（外部依存あり）
+├── types/               # 【Global Types】プロジェクト共通の型定義
+├── features/            # 【Features】機能（Domain）単位のビジネスロジックと専用UI
+│   └── [feature]/       # (blog, contact, etc.)
+├── components/          # 【Shared UI】共通コンポーネント
+│   ├── ui/              # 原子レベルの最小部品（Button, Cardなど）
+│   ├── layout/          # 全体枠（Header, Footer, HTML Shell）
+│   └── system/          # システム部品（Error, 404）
+├── db/                  # 【Database Core】Drizzleスキーマ・マイグレーション
+└── content/             # 【Static Content】MDXファイル等
 ```
+
 
 ## 3. 実装のベストプラクティス（プログラミング品質）
 
