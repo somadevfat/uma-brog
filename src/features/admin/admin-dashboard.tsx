@@ -1,13 +1,13 @@
-import type { Message } from '../contact/services'
+import type { ContactMessage } from '../contact/services'
 
 /**
  * 管理画面ダッシュボードコンポーネント。
  * お問い合わせメッセージの一覧を表示し、システムステータスを確認できます。
  * @param {Object} props - コンポーネントのプロパティ。
- * @param {Message[]} props.messages - 表示するメッセージの配列。
+ * @param {ContactMessage[]} props.messages - 表示するメッセージの配列。
  * @returns {JSX.Element} 管理画面ダッシュボード。
  */
-export const AdminDashboard = ({ messages }: { messages: Message[] }) => {
+export const AdminDashboard = ({ messages }: { messages: ContactMessage[] }) => {
   return (
     <div class="py-12">
       {/* ヘッダー：管理画面のタイトルとアクセスレベルを表示 */}

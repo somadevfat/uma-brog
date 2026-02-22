@@ -12,7 +12,7 @@ declare module 'hono' {
   interface ContextRenderer {
     (
       children: Child,
-      props?: { title?: string; description?: string }
+      props?: { title?: string; description?: string; status?: number }
     ): Response | Promise<Response>
   }
 

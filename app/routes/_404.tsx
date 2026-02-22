@@ -8,8 +8,10 @@ import { ErrorPage } from '../../src/components/system/error-page'
  */
 const handler: NotFoundHandler = (c) => {
   // 404 エラーページをレンダリング
+  c.status(404)
   return c.render(<ErrorPage message="SIGNAL_LOST: POSITION_UNKNOWN" status={404} />, {
     title: '404 NOT FOUND',
+    status: 404,
   })
 }
 

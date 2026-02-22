@@ -1,4 +1,5 @@
 import { zValidator } from '@hono/zod-validator'
+import { Hono } from 'hono'
 import { createRoute } from 'honox/factory'
 import { insertMessageSchema } from '../../../src/db/schema'
 import { contactService } from '../../../src/features/contact/services'
@@ -40,3 +41,10 @@ export const POST = createRoute(zValidator('json', schema), async (c) => {
     return c.json({ success: false }, 500)
   }
 })
+
+/**
+ * RPC 用の型定義。
+ * フロントエンドで API クライアントを生成する際に使用します。
+ */
+const route = new Hono().post('/api/contact', ...POST)
+export type AppType = typeof route

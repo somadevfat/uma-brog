@@ -7,7 +7,8 @@
       "!!**/node_modules",
       "!!**/.wrangler",
       "!!**/.agent",
-      "!!**/design"
+      "!!**/design",
+      "!!**/coverage"
     ]
   },
   "formatter": {

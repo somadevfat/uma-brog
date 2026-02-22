@@ -1,4 +1,11 @@
+import { hc } from 'hono/client'
 import { useState } from 'hono/jsx'
+import type { AppType } from '../routes/api/contact'
+
+/**
+ * Hono RPC クライアントの初期化。
+ */
+const client = hc<AppType>('/')
 
 /**
  * お問い合わせフォームコンポーネント。
@@ -22,10 +29,9 @@ export default function ContactForm() {
   /**
    * フォームの送信イベントをハンドリングします。
    * APIへの送信と同時に、視覚的なフィードバック用のログを表示します。
-   * @param {any} e - フォームイベント。
+   * @param {Event} e - フォームイベント。
    */
-  // biome-ignore lint/suspicious/noExplicitAny: Convert FormData to object securely
-  const handleSubmit = async (e: any) => {
+  const handleSubmit = async (e: Event) => {
     // デフォルトの送信挙動を抑制
     e.preventDefault()
     setStatus('TRANSMITTING')
@@ -38,15 +44,20 @@ export default function ContactForm() {
 
     // フォームデータをオブジェクトに変換
     const formData = new FormData(e.currentTarget as HTMLFormElement)
-    // biome-ignore lint/suspicious/noExplicitAny: Convert FormData to object securely
-    const data = Object.fromEntries(formData as any)
+    const senderName = formData.get('senderName') as string
+    const senderEmail = formData.get('senderEmail') as string
+    const subject = formData.get('subject') as string
+    const body = formData.get('body') as string
 
     try {
-      // APIエンドポイントにデータを送信
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+      // Hono RPC クライアントを使用して API にデータを送信
+      const res = await client.api.contact.$post({
+        json: {
+          senderName,
+          senderEmail,
+          subject,
+          body,
+        },
       })
 
       if (!res.ok) {

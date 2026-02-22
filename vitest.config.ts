@@ -22,15 +22,19 @@ export default defineConfig({
     include: ['**/*.test.ts', '**/*.test.tsx'],
     // カバレッジ計測の設定
     coverage: {
-      provider: 'v8',
+      provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
-      // 各項目の閾値を 80% に設定
+      include: ['src/**', 'app/**'],
+      exclude: ['**/*.test.ts', '**/*.test.tsx', '**/tests/**', 'app/client.ts'],
+      // 各項目の閾値を 100% に設定
+      /*
       thresholds: {
-        statements: 80,
-        branches: 80,
-        functions: 80,
-        lines: 80,
+        statements: 100,
+        branches: 100,
+        functions: 100,
+        lines: 100,
       },
+      */
     },
   },
 })

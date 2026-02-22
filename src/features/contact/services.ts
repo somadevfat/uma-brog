@@ -5,7 +5,7 @@ import { messages } from '../../db/schema'
 /**
  * メッセージテーブルのセレクトモデル型。
  */
-export type Message = InferSelectModel<typeof messages>
+export type ContactMessage = InferSelectModel<typeof messages>
 
 /**
  * お問い合わせメッセージに関連するサービス。
@@ -18,7 +18,7 @@ export const contactService = {
    * @param {string} [webhookUrl] - 通知先のWebhook URL（任意）。
    * @returns {Promise<void>}
    */
-  async sendMessage(db: DrizzleDB, message: Message, webhookUrl?: string): Promise<void> {
+  async sendMessage(db: DrizzleDB, message: ContactMessage, webhookUrl?: string): Promise<void> {
     // データベースにメッセージを挿入
     await db.insert(messages).values({
       id: message.id,
@@ -46,7 +46,7 @@ export const contactService = {
    * @param {DrizzleDB} db - Drizzle データベースインスタンス。
    * @returns {Promise<Message[]>} メッセージの配列。
    */
-  async getAllMessages(db: DrizzleDB): Promise<Message[]> {
+  async getAllMessages(db: DrizzleDB): Promise<ContactMessage[]> {
     // 作成日時の降順で全メッセージを取得
     return await db.select().from(messages).orderBy(desc(messages.createdAt))
   },

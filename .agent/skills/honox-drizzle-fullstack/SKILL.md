@@ -58,10 +58,13 @@ export const blogService = {
 
 ```tsx
 // app/routes/blog/index.tsx
-export default createRoute(async (c) => {
+export const GET = createRoute(async (c) => {
   const posts = await blogService.getAllPosts();
   return c.render(<PostList posts={posts} />);
 });
+
+// RPC用の型エクスポート（Single Routeの場合）
+export type AppType = typeof GET;
 ```
 
 ## 3. 実装のルール
@@ -71,6 +74,11 @@ export default createRoute(async (c) => {
 3.  **Separation of Concerns (SRP)**: ルート、サービス、レイアウト、UIコンポーネントの責務を明確に分ける。
 4.  **Layout Logic**: `_renderer.tsx` はシェルの呼び出しに徹し、メタデータは動的に管理する。
 5.  **Islands**: クライアントサイドの挙動が必要な最小限の範囲のみで使用する。
+6.  **Full Type Sharing (Hono RPC)**:
+    - フロントエンドと API 間の通信は必ず Hono RPC (`hc`) を利用する。
+    - API 側（`app/routes/api/` 等）で `export type AppType = typeof route` を行い、フロント側でこれをインポートして `hc<AppType>` を作成する。
+    - URL 文字列の直接記述による `fetch` は禁止。
+    - バリデーション用の Zod スキーマ（`src/db/schema/` 内）をフロントエンドでも共有し、入力側の型安全も確保する。
 
 ## 4. 品質管理
 
