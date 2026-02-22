@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import { blogService } from '../../../src/features/blog/services'
+import { blogService } from '../services'
 
 /**
  * ブログサービス（記事取得ロジック）のテスト。

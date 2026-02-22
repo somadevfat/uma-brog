@@ -1,5 +1,5 @@
 import { expect, test } from 'vitest'
-import app from '../../../app/server'
+import app from '../../server'
 
 /**
  * ブログの基本表示に関するテスト。
