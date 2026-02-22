@@ -1,7 +1,16 @@
 import type { Project } from './types'
 
+/**
+ * ポートフォリオ記事に関連するサービス。
+ */
 export const portfolioService = {
+  /**
+   * すべてのプロジェクト情報を取得します。
+   * 現在は静的なデータを返しますが、将来的にDBからの取得に拡張可能です。
+   * @returns {Promise<Project[]>} プロジェクトのリスト。
+   */
   async getAllProjects(): Promise<Project[]> {
+    // プロジェクト一覧を定義
     return [
       {
         id: 'uma-brog',

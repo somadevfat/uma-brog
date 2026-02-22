@@ -1,4 +1,12 @@
+/**
+ * メインナビゲーションコンポーネント。
+ * アプリケーションのグローバルヘッダーとメニューを提供します。
+ * @param {Object} props - コンポーネントのプロパティ。
+ * @param {string} [props.path] - 現在のURIパス（アクティブ状態の判定に使用）。
+ * @returns {JSX.Element} ナビゲーションヘッダー。
+ */
 export const Nav = ({ path }: { path?: string }) => {
+  // ナビゲーションリンクの定義
   const links = [
     { href: '/', label: 'About' },
     { href: '/portfolio', label: 'Projects' },
@@ -8,6 +16,7 @@ export const Nav = ({ path }: { path?: string }) => {
 
   return (
     <header class="site-header container">
+      {/* サイトロゴとホームリンク */}
       <a href="/" class="logo">
         <svg
           width="24"
@@ -23,11 +32,14 @@ export const Nav = ({ path }: { path?: string }) => {
         </svg>
         GRU Space
       </a>
+
+      {/* ナビゲーションリンク群 */}
       <nav class="main-nav">
         {links.map((link) => (
           <a
             key={link.href}
             href={link.href}
+            // 現在のパスに基づいてアクティブクラスを割り当て
             class={
               path === link.href || (link.href !== '/' && path?.startsWith(link.href))
                 ? 'active'
@@ -38,6 +50,8 @@ export const Nav = ({ path }: { path?: string }) => {
           </a>
         ))}
       </nav>
+
+      {/* 検索アイコン（装飾用） */}
       <div class="search-icon">
         <svg
           width="20"

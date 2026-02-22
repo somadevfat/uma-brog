@@ -1,28 +1,48 @@
 import { useState } from 'hono/jsx'
 
+/**
+ * お問い合わせフォームコンポーネント。
+ * レトロフューチャーなデザインで、送信プロセスをシミュレートするログ表示機能を備えています。
+ * @returns {JSX.Element} レンダリングされたお問い合わせフォーム。
+ */
 export default function ContactForm() {
+  // フォームの送信ステータスを管理
   const [status, setStatus] = useState<'IDLE' | 'TRANSMITTING' | 'SUCCESS' | 'ERROR'>('IDLE')
+  // 送信プロセスのログを保持
   const [logs, setLogs] = useState<string[]>([])
 
+  /**
+   * ログ配列に新しいメッセージを追加します。
+   * @param {string} msg - 追加するログメッセージ。
+   */
   const addLog = (msg: string) => {
     setLogs((prev) => [...prev, `> ${msg}`])
   }
 
+  /**
+   * フォームの送信イベントをハンドリングします。
+   * APIへの送信と同時に、視覚的なフィードバック用のログを表示します。
+   * @param {any} e - フォームイベント。
+   */
   // biome-ignore lint/suspicious/noExplicitAny: Convert FormData to object securely
   const handleSubmit = async (e: any) => {
+    // デフォルトの送信挙動を抑制
     e.preventDefault()
     setStatus('TRANSMITTING')
     setLogs([])
 
+    // 送信プロセスのシミュレーション開始
     addLog('INITIALIZING_UPLINK...')
     await new Promise((r) => setTimeout(r, 500))
     addLog('ENCRYPTING_PACKETS...')
 
+    // フォームデータをオブジェクトに変換
     const formData = new FormData(e.currentTarget as HTMLFormElement)
     // biome-ignore lint/suspicious/noExplicitAny: Convert FormData to object securely
     const data = Object.fromEntries(formData as any)
 
     try {
+      // APIエンドポイントにデータを送信
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -33,16 +53,19 @@ export default function ContactForm() {
         throw new Error('NETWORK_RESPONSE_NOT_OK')
       }
 
+      // 送信成功時のログ演出
       addLog('SIGNAL_ACQUIRED_BY_RECIPIENT')
       await new Promise((r) => setTimeout(r, 500))
       addLog('TRANSMISSION_COMPLETE')
       setStatus('SUCCESS')
     } catch (_err) {
+      // エラー発生時の処理
       addLog('TRANSMISSION_FAILED: UPLINK_INTERRUPTED')
       setStatus('ERROR')
     }
   }
 
+  // 送信成功時の表示
   if (status === 'SUCCESS') {
     return (
       <div class="blueprint-border p-8 text-center animate-pulse">
@@ -59,6 +82,7 @@ export default function ContactForm() {
     )
   }
 
+  // フォーム本体のレンダリング
   return (
     <div class="blueprint-border p-8 relative">
       <div class="absolute top-0 right-0 p-2 text-[10px] text-secondary mono">
@@ -131,6 +155,7 @@ export default function ContactForm() {
         </div>
       </form>
 
+      {/* 送信中のログ表示 */}
       {status === 'TRANSMITTING' && (
         <div class="mt-8 pt-4 border-t border-border-line mono text-[10px] text-accent-red opacity-80">
           {logs.map((log) => (

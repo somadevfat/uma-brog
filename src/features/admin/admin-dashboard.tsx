@@ -1,14 +1,23 @@
 import type { Message } from '../contact/services'
 
+/**
+ * 管理画面ダッシュボードコンポーネント。
+ * お問い合わせメッセージの一覧を表示し、システムステータスを確認できます。
+ * @param {Object} props - コンポーネントのプロパティ。
+ * @param {Message[]} props.messages - 表示するメッセージの配列。
+ * @returns {JSX.Element} 管理画面ダッシュボード。
+ */
 export const AdminDashboard = ({ messages }: { messages: Message[] }) => {
   return (
     <div class="py-12">
+      {/* ヘッダー：管理画面のタイトルとアクセスレベルを表示 */}
       <header class="mb-12 border-b border-accent-red pb-4">
         <h1 class="text-3xl font-thin tracking-widest uppercase">STRATEGIC_MANAGEMENT_CONSOLE</h1>
         <p class="mono text-[10px] text-accent-red mt-2">ACCESS_LEVEL: AUTHORIZED_ONLY</p>
       </header>
 
       <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* サイドバー：システムヘルス情報 */}
         <div class="lg:col-span-1 space-y-4">
           <div class="blueprint-border p-4 bg-[#0D0D0D]">
             <h2 class="mono text-[10px] text-secondary mb-2">SYSTEM_HEALTH</h2>
@@ -19,29 +28,36 @@ export const AdminDashboard = ({ messages }: { messages: Message[] }) => {
           </div>
         </div>
 
+        {/* メインエリア：受信メッセージ一覧 */}
         <div class="lg:col-span-3">
           <h2 class="text-xl font-thin mb-6 mono uppercase tracking-widest">INCOMING_SIGNALS</h2>
           <div class="space-y-4">
+            {/* メッセージをループ表示 */}
             {messages.map((msg) => (
               <div
                 key={msg.id}
                 class="blueprint-border p-6 hover:bg-white/[0.02] transition-colors relative"
               >
+                {/* 送信時刻 */}
                 <div class="absolute top-2 right-4 mono text-[10px] text-secondary">
                   {msg.createdAt.toLocaleString()}
                 </div>
+                {/* 件名 */}
                 <h3 class="mono text-sm text-accent-red mb-1">{msg.subject}</h3>
+                {/* 送信者情報 */}
                 <p class="text-xs mb-4">
                   From:{' '}
                   <span class="text-secondary">
                     {msg.senderName} &lt;{msg.senderEmail}&gt;
                   </span>
                 </p>
+                {/* 本文 */}
                 <div class="p-4 bg-black/50 border border-border-line mono text-xs text-secondary leading-relaxed">
                   {msg.body}
                 </div>
               </div>
             ))}
+            {/* メッセージがない場合の表示 */}
             {messages.length === 0 && (
               <div class="blueprint-border p-12 text-center text-secondary mono text-xs">
                 NO_SIGNALS_RECEIVED_IN_CURRENT_BUFFER

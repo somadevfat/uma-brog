@@ -1,18 +1,31 @@
 import type { Child } from 'hono/jsx'
-import { DrizzleDB } from '../src/db/client'
+import type { DrizzleDB } from '../src/db/client'
 
+/**
+ * Hono のグローバル型定義の拡張。
+ */
 declare module 'hono' {
-  interface ContextRenderer {
-    (
-      children: Child,
-      props?: { title?: string; description?: string }
-    ): Response | Promise<Response>
-  }
+  /**
+   * コンテキストレンダラーの型定義。
+   * JSX を Response に変換します。
+   */
+  type ContextRenderer = (
+    children: Child,
+    props?: { title?: string; description?: string }
+  ) => Response | Promise<Response>
+
+  /**
+   * Hono の環境変数（Variables と Bindings）の型定義。
+   */
   interface Env {
+    /** ミドルウェアでセットされる変数 */
     Variables: {
+      /** Drizzle データベースインスタンス */
       db: DrizzleDB
     }
+    /** Cloudflare Workers のバインディング */
     Bindings: {
+      /** D1 データベース */
       DB: D1Database
     }
   }

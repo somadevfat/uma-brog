@@ -1,11 +1,19 @@
 import type { Project } from './types'
 
+/**
+ * プロジェクト一覧をグリッド表示するコンポーネント。
+ * @param {Object} props - コンポーネントのプロパティ。
+ * @param {Project[]} props.projects - 表示するプロジェクトの配列。
+ * @returns {JSX.Element} プロジェクトグリッド。
+ */
 export const ProjectGrid = ({ projects }: { projects: Project[] }) => {
   return (
     <div class="projects-grid">
+      {/* 各プロジェクトをカードとして表示 */}
       {projects.map((project) => (
         <article key={project.id} class="card">
           <div class="card-img">
+            {/* プロジェクト画像またはプレースホルダーを表示 */}
             {project.imageUrl ? (
               <img src={project.imageUrl} alt={project.title} />
             ) : (
@@ -24,6 +32,8 @@ export const ProjectGrid = ({ projects }: { projects: Project[] }) => {
           </div>
           <h3>{project.title}</h3>
           <p>{project.description}</p>
+
+          {/* リンクボタンの配置 */}
           <div class="flex gap-2">
             {project.githubUrl && (
               <a

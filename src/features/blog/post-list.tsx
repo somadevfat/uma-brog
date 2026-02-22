@@ -1,12 +1,19 @@
 import type { Post } from './types'
 
+/**
+ * ブログ記事一覧を表示するコンポーネント。
+ * @param {Object} props - コンポーネントのプロパティ。
+ * @param {Post[]} props.posts - 表示する記事の配列。
+ * @returns {JSX.Element} 記事一覧リスト。
+ */
 export const PostList = ({ posts }: { posts: Post[] }) => {
   return (
     <div class="projects-grid">
+      {/* 記事をカード形式で表示 */}
       {posts.map((post) => (
         <article key={post.slug} class="card">
           <div class="card-img">
-            {/* If there's no image URL, use a placeholder SVG as in the design sample */}
+            {/* デザイン案に基づいたプレースホルダーSVGを表示 */}
             <svg viewBox="0 0 100 50" stroke="#888" stroke-width="1" fill="none" aria-hidden="true">
               <title>Placeholder Graphic</title>
               <polyline points="10,40 40,15 60,30 90,10" />
@@ -21,9 +28,7 @@ export const PostList = ({ posts }: { posts: Post[] }) => {
         </article>
       ))}
 
-      {/* If no posts, show placeholders as in design sample? 
-          Actually, the design sample had 4 cards. I'll just show what we have. 
-      */}
+      {/* 記事が存在しない場合のプレースホルダー表示 */}
       {posts.length === 0 && (
         <div
           class="card"
