@@ -1,15 +1,15 @@
-import { defineConfig } from 'vitest/config'
-import honox from 'honox/vite'
 import mdx from '@mdx-js/rollup'
+import honox from 'honox/vite'
+import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
   plugins: [
     honox({
-      devServer: { adapter: () => ({}) } 
+      devServer: { adapter: () => ({}) },
     }),
     mdx({
       jsxImportSource: 'hono/jsx',
-    })
+    }),
   ],
   test: {
     environment: 'node',
@@ -22,7 +22,7 @@ export default defineConfig({
         branches: 80,
         functions: 80,
         lines: 80,
-      }
-    }
-  }
+      },
+    },
+  },
 })

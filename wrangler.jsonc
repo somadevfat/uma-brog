@@ -3,9 +3,7 @@
   "name": "uma-brog",
   "main": "./dist/index.js",
   "compatibility_date": "2026-02-20",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
     "directory": "./dist"
   }

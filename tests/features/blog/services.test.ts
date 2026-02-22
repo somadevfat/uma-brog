@@ -1,4 +1,4 @@
-import { test, expect } from 'vitest'
+import { expect, test } from 'vitest'
 import { blogService } from '../../../src/features/blog/services'
 
 test('blogService.getAllPosts() should return posts', async () => {

@@ -11,56 +11,64 @@
 
 ```text
 src/
-├── app/                  # 【Presentation】HonoX 固有の領域
-│   ├── routes/           # SSRされるページ・APIルート
+├── app/                  # 【Presentation】HonoX 固有のルーティング領域
+│   ├── routes/           # SSRされるページ・APIルート（薄い口として機能）
 │   ├── islands/          # クライアントサイド JS (Hydration部品)
-│   ├── _renderer.tsx     # レイアウト定義
+│   ├── _renderer.tsx     # レイアウト定義（Layoutコンポーネントの呼び出し）
 │   └── client.ts         # エントリーポイント
 │
 ├── db/                   # 【Database Core】Drizzle 関連
-│   ├── schema/           # テーブル定義 (機能ごとに分割)
-│   │   ├── index.ts      # すべてを統合して export
-│   │   ├── posts.ts
+│   ├── schema/           # テーブル定義
+│   │   ├── index.ts      # すべてを統合して export (drizzle-zod によるバリデーションも含む)
+│   │   ├── analytics.ts
 │   │   └── messages.ts
 │   └── client.ts         # Drizzle インスタンス初期化
 │
-├── features/             # 【Feature Logic】機能ごとのロジック集約
-│   ├── blog/             # ブログ機能
-│   │   ├── services.ts   # Drizzleを用いたデータ取得・操作ロジック
-│   │   └── types.ts      # スキーマから推論した型定義
-│   └── contact/          # お問い合わせ機能
-│       └── services.ts
+├── features/             # 【Feature Logic】機能ごとのロジックと専用UI
+│   ├── blog/             # ブログ機能 (services, types, components)
+│   ├── contact/          # お問い合わせ機能
+│   └── analytics/        # 解析機能
 │
-├── components/           # 共有UIコンポーネント (サーバーサイド専用)
-├── lib/                  # 共通ユーティリティ (Auth, Helper)
-└── content/              # 静的コンテンツ (MDXファイル等)
+├── components/           # 【Shared UI】
+│   ├── layout/           # サイト全体の構造（HTML Shell, Main Layout）
+│   ├── system/           # システム共通部品（Error Page, 404 Page）
+│   └── ui/               # 汎用部品（Nav, Button, etc.）
+│
+├── lib/                  # 【Utilities】共通基盤 (Auth, Error Handling)
+└── content/              # 【Static Content】MDXファイル等
 ```
 
-## 3. 実装のベストプラクティス
+## 3. 実装のベストプラクティス（プログラミング品質）
 
-### 3.1. Drizzle Schema-First
+### 3.1. Drizzle Schema-First & Zod Integration (DRY)
 
-DBスキーマを定義すれば、TypeScriptの型、DBマイグレーション、および `drizzle-zod` によるバリデーションが自動的に整合されます。
+`drizzle-zod` を使用し、DBスキーマからバリデーション・ロジックを自動生成します。DBの変更がバリデーションに即座に反映される状態を維持します。
 
-### 3.2. Middleware による DB 注入
+### 3.2. 責任の分離 (SRP)
 
-Cloudflare Workers 環境では `env` を通じて DB にアクセスします。Hono のミドルウェアで `c.set('db', ...)` を行い、Handlerから型安全にアクセス可能にします。
+- **`app/routes/`**: リクエストの受け取りと最終的なレスポンス（render/json）の返却のみを担当。
+- **`services.ts`**: DB操作やビジネスロジックを担当。
+- **`components/layout/`**: HTMLの構造やメタデータ管理を担当。
 
-### 3.3. Service Layer によるロジック分離
+### 3.3. レイアウトとメタデータの動的管理
 
-`features/[feature]/services.ts` に DB クエリや外部連携ロジックをまとめます。これにより、SSRページ (`routes`) と APIエンドポイントの両方から同じロジックを共有できます（DRYの徹底）。
+`_renderer.tsx` は直接的な実装を避け、`src/components/layout/` に定義されたコンポーネントを呼び出す形式にします。ページごとのタイトルやメタデータは、`c.render` の引数を通じて動的に制御します。
 
-### 3.4. Islands Architecture
+### 3.4. エラーハンドリングの集約
 
-インタラクティブな要素（アニメーション、リアルタイムバリデーション等）が必要な場合のみ `islands/` に配置し、JS の配信量を最小限に抑えます。
+`_error.tsx` や `_404.tsx` は、`src/components/system/` に定義された共通のUIを呼び出すのみとし、エラー発生時の振る舞いを一元管理します。
+
+### 3.5. Biome によるコード品質の維持 (Fast Tooling)
+
+ESLint/Prettier の代わりに **Biome** を採用し、爆速な Linter/Formatter 環境を構築しています。`any` の使用禁止や命名規則などを厳格に管理し、常にクリーンなコードベースを維持します。
 
 ## 4. 開発サイクル
 
 1.  **Schema**: `src/db/schema/` にテーブル定義を追加。
 2.  **Migration**: `bun run db:generate` & `bun run db:migrate`。
-3.  **Service**: `src/features/[feature]/services.ts` にロジックを実装。
-4.  **Presentation**: `app/routes/` または `app/islands/` でUIを構築。
+3.  **Service**: `src/features/[feature]/services.ts` にビジネスロジックを、同ディレクトリに専用UIを実装。
+4.  **Presentation**: `app/routes/` でこれらを結合。
 
 ---
 
-このアーキテクチャは、コードの「散らばり」を抑え、開発者がどこに何を書くべきかを明確にすることで、長期的な保守性と爆速な開発を両立します。
+このアーキテクチャは、プログラミング原則（DRY/SRP）を徹底することで、スケールしても「汚れない」コードベースを実現します。

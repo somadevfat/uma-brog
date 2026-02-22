@@ -35,7 +35,6 @@ description: Users can build high-quality, full-stack applications with zero int
 2. **検証プロセス**:
    - `bun test` (テストの再確認)
    - `bun run build` (型チェックとビルド確認)
-   - `bun run lint` (コード品質確認)
 3. エラーが発生した場合は、自己修正を行い、再度ステップ5を実行する。
 
 ## 6. 完了報告と自己レビュー

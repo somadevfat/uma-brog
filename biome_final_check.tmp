@@ -1,0 +1,102 @@
+app/global.d.ts:6:5 lint/style/useShorthandFunctionType  FIXABLE  ━━━━━━━━━━
+
+  i Use a function type instead of a call signature.
+  
+    4 │ declare module 'hono' {
+    5 │   interface ContextRenderer {
+  > 6 │     (children: Child, props?: { title?: string; description?: string }): Response | Promise<Response>
+      │     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    7 │   }
+    8 │   interface Env {
+  
+  i Types containing only a call signature can be shortened to a function type.
+  
+  i Safe fix: Alias a function type instead of using an interface with a call signature.
+  
+     3  3 │   
+     4  4 │   declare module 'hono' {
+     5    │ - ··interface·ContextRenderer·{
+     6    │ - ····(children:·Child,·props?:·{·title?:·string;·description?:·string·}):·Response·|·Promise<Response>
+     7    │ - ··}
+        5 │ + ··type·ContextRenderer·=·(children:·Child,·props?:·{·title?:·string;·description?:·string·})·=>·Response·|·Promise<Response>
+     8  6 │     interface Env {
+     9  7 │       Variables: {
+  
+
+app/global.d.ts:9:5 lint/style/useNamingConvention ━━━━━━━━━━
+
+  × This property name should be in camelCase.
+  
+     7 │   }
+     8 │   interface Env {
+   > 9 │     Variables: {
+       │     ^^^^^^^^^
+    10 │       db: DrizzleDB
+    11 │     }
+  
+
+app/global.d.ts:12:5 lint/style/useNamingConvention ━━━━━━━━━━
+
+  × This property name should be in camelCase.
+  
+    10 │       db: DrizzleDB
+    11 │     }
+  > 12 │     Bindings: {
+       │     ^^^^^^^^
+    13 │       DB: D1Database
+    14 │     }
+  
+
+app/global.d.ts:13:7 lint/style/useNamingConvention ━━━━━━━━━━
+
+  × This property name should be in camelCase.
+  
+    11 │     }
+    12 │     Bindings: {
+  > 13 │       DB: D1Database
+       │       ^^
+    14 │     }
+    15 │   }
+  
+
+app/global.d.ts format ━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     4  4 │   declare module 'hono' {
+     5  5 │     interface ContextRenderer {
+     6    │ - ····(children:·Child,·props?:·{·title?:·string;·description?:·string·}):·Response·|·Promise<Response>
+        6 │ + ····(
+        7 │ + ······children:·Child,
+        8 │ + ······props?:·{·title?:·string;·description?:·string·}
+        9 │ + ····):·Response·|·Promise<Response>
+     7 10 │     }
+     8 11 │     interface Env {
+  
+
+src/features/blog/post-list.tsx format ━━━━━━━━━━
+
+  × Formatter would have printed the following content:
+  
+     8  8 │             <div class="card-img">
+     9  9 │               {/* If there's no image URL, use a placeholder SVG as in the design sample */}
+    10    │ - ············<svg
+    11    │ - ··············viewBox="0·0·100·50"
+    12    │ - ··············stroke="#888"
+    13    │ - ··············stroke-width="1"
+    14    │ - ··············fill="none"
+    15    │ - ··············aria-hidden="true"
+    16    │ - ············>
+       10 │ + ············<svg·viewBox="0·0·100·50"·stroke="#888"·stroke-width="1"·fill="none"·aria-hidden="true">
+    17 11 │                 <title>Placeholder Graphic</title>
+    18 12 │                 <polyline points="10,40 40,15 60,30 90,10" />
+  
+
+Checked 43 files in 46ms. No fixes applied.
+Found 5 errors.
+Found 1 info.
+check ━━━━━━━━━━━━━━━━━━━━━━━
+
+  × Some errors were emitted while running checks.
+  
+

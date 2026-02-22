@@ -1,10 +1,12 @@
 import { createRoute } from 'honox/factory'
-import { blogService } from '../../../src/features/blog/services'
 import { analyticsService } from '../../../src/features/analytics/services'
+import { blogService } from '../../../src/features/blog/services'
 
 export default createRoute(async (c) => {
   const slug = c.req.param('slug')
-  if (!slug) return c.notFound()
+  if (!slug) {
+    return c.notFound()
+  }
   const post = await blogService.getPostBySlug(slug)
 
   if (!post) {
@@ -37,8 +39,12 @@ export default createRoute(async (c) => {
       </article>
 
       <footer class="mt-16 pt-8 border-t border-border-line flex justify-between items-center">
-        <a href="/" class="mono text-xs hover:text-accent-red">&lt; RETURN_TO_SYSTEM</a>
-        <div class="text-[10px] text-secondary mono">VIEW_COUNT: {viewCount.toString().padStart(6, '0')}</div>
+        <a href="/" class="mono text-xs hover:text-accent-red">
+          &lt; RETURN_TO_SYSTEM
+        </a>
+        <div class="text-[10px] text-secondary mono">
+          VIEW_COUNT: {viewCount.toString().padStart(6, '0')}
+        </div>
       </footer>
     </div>
   )

@@ -1,6 +1,6 @@
+import { desc, type InferSelectModel } from 'drizzle-orm'
+import type { DrizzleDB } from '../../db/client'
 import { messages } from '../../db/schema'
-import { desc, InferSelectModel } from 'drizzle-orm'
-import { DrizzleDB } from '../../db/client'
 
 export type Message = InferSelectModel<typeof messages>
 
@@ -20,13 +20,13 @@ export const contactService = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          content: `📡 **NEW SIGNAL RECEIVED**\n**From**: ${message.senderName} (${message.senderEmail})\n**Subject**: ${message.subject}\n**Body**: ${message.body}`
-        })
+          content: `📡 **NEW SIGNAL RECEIVED**\n**From**: ${message.senderName} (${message.senderEmail})\n**Subject**: ${message.subject}\n**Body**: ${message.body}`,
+        }),
       })
     }
   },
 
   async getAllMessages(db: DrizzleDB): Promise<Message[]> {
     return await db.select().from(messages).orderBy(desc(messages.createdAt))
-  }
+  },
 }

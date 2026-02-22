@@ -10,7 +10,5 @@ export default createRoute(async (c) => {
 
   const allMessages = await contactService.getAllMessages(db)
 
-  return c.render(
-    <AdminDashboard messages={allMessages} />
-  )
+  return c.render(<AdminDashboard messages={allMessages} />)
 })

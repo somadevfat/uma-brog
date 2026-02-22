@@ -11,11 +11,11 @@ description: HonoX, Drizzle ORM, Cloudflare D1 を用いた実用的で高速な
 
 ```text
 src/
-├── app/                  # ルーティングとIslands (Presentation)
+├── app/                  # ルーティング (Presentation)
 ├── db/                   # スキーマ定義とクライアント (Core)
-├── features/             # 機能ごとのサービスと型 (Logic)
-├── components/           # 共有UIコンポーネント (Pure JSX)
-└── lib/                  # 共通基盤 (Auth等)
+├── features/             # 機能ごとのサービスとUI (Logic)
+├── components/           # 共有UI (layout, system, ui)
+└── lib/                  # 共通基盤
 ```
 
 ## 2. 開発フロー (Direct Path)
@@ -66,12 +66,14 @@ export default createRoute(async (c) => {
 
 ## 3. 実装のルール
 
-1.  **NO DDD**: エンティティやバリューオブジェクトの複雑なクラス定義は行わない。
-2.  **Schema First**: 型は `drizzle-orm` の `InferSelectModel` 等を使用してスキーマから自動生成する。
-3.  **Hono RPC**: 同一プロジェクト内でも、APIルートは `hono/client` で型安全に呼び出せるように構築する。
-4.  **Islands**: ステート管理が必要な場合のみ `islands/` を使用する。
+1.  **NO DDD**: クラスによる過剰な抽象化は行わず、Service関数でシンプルに実装する。
+2.  **Schema First & Zod (DRY)**: `drizzle-zod` を活用し、DBスキーマをバリデーションの唯一のソースとする。
+3.  **Separation of Concerns (SRP)**: ルート、サービス、レイアウト、UIコンポーネントの責務を明確に分ける。
+4.  **Layout Logic**: `_renderer.tsx` はシェルの呼び出しに徹し、メタデータは動的に管理する。
+5.  **Islands**: クライアントサイドの挙動が必要な最小限の範囲のみで使用する。
 
 ## 4. 品質管理
 
 - **Vitest**: サービスレイヤーのクエリロジックを中心に実用的なテストを書く。
 - **Type Safety**: `drizzle-zod` を使って、バリデーションとDBスキーマを一致させる。
+- **Biome**: Linter/Formatter として使用。`bun run lint`, `bun run fmt` でコードの品質を均一化し、`any` を排除する。

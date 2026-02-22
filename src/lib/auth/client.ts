@@ -15,6 +15,6 @@ export const getAuth = (env: Env) => {
     }),
     emailAndPassword: {
       enabled: true,
-    }
+    },
   })
 }

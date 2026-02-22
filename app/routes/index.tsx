@@ -1,6 +1,6 @@
 import { createRoute } from 'honox/factory'
-import { blogService } from '../../src/features/blog/services'
 import { PostList } from '../../src/features/blog/post-list'
+import { blogService } from '../../src/features/blog/services'
 
 export default createRoute(async (c) => {
   const posts = await blogService.getAllPosts()

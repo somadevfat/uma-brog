@@ -1,4 +1,4 @@
-import { Message } from '../contact/services'
+import type { Message } from '../contact/services'
 
 export const AdminDashboard = ({ messages }: { messages: Message[] }) => {
   return (
@@ -22,13 +22,21 @@ export const AdminDashboard = ({ messages }: { messages: Message[] }) => {
         <div class="lg:col-span-3">
           <h2 class="text-xl font-thin mb-6 mono uppercase tracking-widest">INCOMING_SIGNALS</h2>
           <div class="space-y-4">
-            {messages.map(msg => (
-              <div key={msg.id} class="blueprint-border p-6 hover:bg-white/[0.02] transition-colors relative">
+            {messages.map((msg) => (
+              <div
+                key={msg.id}
+                class="blueprint-border p-6 hover:bg-white/[0.02] transition-colors relative"
+              >
                 <div class="absolute top-2 right-4 mono text-[10px] text-secondary">
                   {msg.createdAt.toLocaleString()}
                 </div>
                 <h3 class="mono text-sm text-accent-red mb-1">{msg.subject}</h3>
-                <p class="text-xs mb-4">From: <span class="text-secondary">{msg.senderName} &lt;{msg.senderEmail}&gt;</span></p>
+                <p class="text-xs mb-4">
+                  From:{' '}
+                  <span class="text-secondary">
+                    {msg.senderName} &lt;{msg.senderEmail}&gt;
+                  </span>
+                </p>
                 <div class="p-4 bg-black/50 border border-border-line mono text-xs text-secondary leading-relaxed">
                   {msg.body}
                 </div>
