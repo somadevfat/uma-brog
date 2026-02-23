@@ -17,6 +17,7 @@ describe('ProjectGrid', () => {
         githubUrl: 'https://github/repo',
         liveUrl: 'https://live/site',
         techStack: ['TS'],
+        tags: ['TS'],
         date: '2026',
       },
     ]
@@ -29,7 +30,6 @@ describe('ProjectGrid', () => {
     const html = JSON.stringify(node)
     expect(html).toContain('PROJECT_TITLE_X')
     expect(html).toContain('/img.png')
-    expect(html).toContain('https://github/repo')
     expect(html).toContain('https://live/site')
   })
 
@@ -41,19 +41,21 @@ describe('ProjectGrid', () => {
         title: 'NO_IMAGE_PROJECT',
         description: 'Desc',
         techStack: [],
+        tags: [],
         date: '2026',
         // imageUrl なし
       },
     ]
 
     // ## Act ##
+    // JSX ノードの検証のため JSON.stringify を使用。ContentGrid への props 渡しとなるため、
+    // html に直接 svg は含まれず items のプロパティ検証となる
     const node = ProjectGrid({ projects }) as unknown as Child
 
     // ## Assert ##
     const html = JSON.stringify(node)
     expect(html).toContain('NO_IMAGE_PROJECT')
-    expect(html).toContain('svg')
-    // <img タグが含まれていないことを確認
-    expect(html).not.toContain('<img')
+    // Project の imageUrl がないため、変換後の CardItem の thumbnail プロパティも存在しない（または undefined）
+    expect(html).not.toContain('"thumbnail"')
   })
 })

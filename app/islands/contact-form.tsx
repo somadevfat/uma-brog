@@ -9,7 +9,7 @@ const client = hc<AppType>('/')
 
 /**
  * お問い合わせフォームコンポーネント。
- * レトロフューチャーなデザインで、送信プロセスをシミュレートするログ表示機能を備えています。
+ * 送信プロセスをシミュレートするログ表示機能を備えています。
  * @returns {JSX.Element} レンダリングされたお問い合わせフォーム。
  */
 export default function ContactForm() {
@@ -38,9 +38,9 @@ export default function ContactForm() {
     setLogs([])
 
     // 送信プロセスのシミュレーション開始
-    addLog('INITIALIZING_UPLINK...')
+    addLog('接続を確立中...')
     await new Promise((r) => setTimeout(r, 500))
-    addLog('ENCRYPTING_PACKETS...')
+    addLog('データを暗号化中...')
 
     // フォームデータをオブジェクトに変換
     const formData = new FormData(e.currentTarget as HTMLFormElement)
@@ -65,13 +65,13 @@ export default function ContactForm() {
       }
 
       // 送信成功時のログ演出
-      addLog('SIGNAL_ACQUIRED_BY_RECIPIENT')
+      addLog('受信を確認しました')
       await new Promise((r) => setTimeout(r, 500))
-      addLog('TRANSMISSION_COMPLETE')
+      addLog('送信完了')
       setStatus('SUCCESS')
     } catch (_err) {
       // エラー発生時の処理
-      addLog('TRANSMISSION_FAILED: UPLINK_INTERRUPTED')
+      addLog('送信失敗：接続が中断されました')
       setStatus('ERROR')
     }
   }
@@ -79,15 +79,35 @@ export default function ContactForm() {
   // 送信成功時の表示
   if (status === 'SUCCESS') {
     return (
-      <div class="blueprint-border p-8 text-center animate-pulse">
-        <h2 class="text-2xl mono text-accent-red mb-4">SIGNAL_SENT</h2>
-        <div class="mono text-xs text-secondary space-y-1 mb-8">
+      <div class="blueprint-border p-8" style={{ textAlign: 'center' }}>
+        <h2
+          style={{
+            fontSize: '20px',
+            color: 'var(--accent-red)',
+            marginBottom: '16px',
+            fontFamily: '"Courier New", monospace',
+          }}
+        >
+          送信完了
+        </h2>
+        <p class="text-sm mb-4" style={{ color: 'var(--text-sub)' }}>
+          お問い合わせありがとうございます。内容を確認次第ご連絡いたします。
+        </p>
+        <div
+          class="mono text-xs space-y-1 mb-4"
+          style={{ color: 'var(--text-sub)', textAlign: 'left' }}
+        >
           {logs.map((log) => (
             <p key={log}>{log}</p>
           ))}
         </div>
-        <button type="button" onClick={() => setStatus('IDLE')} class="btn-blueprint">
-          SEND_NEW_SIGNAL
+        <button
+          type="button"
+          onClick={() => setStatus('IDLE')}
+          class="btn"
+          style={{ width: 'auto', paddingLeft: '20px', paddingRight: '20px' }}
+        >
+          新しいメッセージを送る
         </button>
       </div>
     )
@@ -95,65 +115,72 @@ export default function ContactForm() {
 
   // フォーム本体のレンダリング
   return (
-    <div class="blueprint-border p-8 relative">
-      <div class="absolute top-0 right-0 p-2 text-[10px] text-secondary mono">
-        TERMINAL_REF: SIG-B1
-      </div>
+    <div class="blueprint-border p-8">
       <form onSubmit={handleSubmit} class="space-y-6">
         <div>
-          <label htmlFor="senderName" class="block mono text-[10px] text-sub mb-2">
-            IDENTIFIER / NAME
+          <label
+            htmlFor="senderName"
+            class="block mono text-xs mb-2"
+            style={{ color: 'var(--text-sub)' }}
+          >
+            お名前
           </label>
           <input
             id="senderName"
             name="senderName"
             required
-            placeholder="TYPE_YOUR_NAME"
-            class="w-full resize-none"
+            placeholder="お名前を入力"
+            class="w-full"
           />
         </div>
         <div>
-          <label htmlFor="senderEmail" class="block mono text-[10px] text-sub mb-2">
-            RETURN_PATH / EMAIL
+          <label
+            htmlFor="senderEmail"
+            class="block mono text-xs mb-2"
+            style={{ color: 'var(--text-sub)' }}
+          >
+            メールアドレス
           </label>
           <input
             id="senderEmail"
             name="senderEmail"
             type="email"
             required
-            placeholder="EMAIL_ADDRESS@EXAMPLE.COM"
-            class="w-full resize-none"
+            placeholder="email@example.com"
+            class="w-full"
           />
         </div>
         <div>
-          <label htmlFor="subject" class="block mono text-[10px] text-sub mb-2">
-            SIGNAL_SUBJECT
+          <label
+            htmlFor="subject"
+            class="block mono text-xs mb-2"
+            style={{ color: 'var(--text-sub)' }}
+          >
+            件名
           </label>
-          <input
-            id="subject"
-            name="subject"
-            required
-            placeholder="SIGNAL_TITLE"
-            class="w-full resize-none"
-          />
+          <input id="subject" name="subject" required placeholder="件名を入力" class="w-full" />
         </div>
         <div>
-          <label htmlFor="body" class="block mono text-[10px] text-sub mb-2">
-            DATALINK_BODY
+          <label
+            htmlFor="body"
+            class="block mono text-xs mb-2"
+            style={{ color: 'var(--text-sub)' }}
+          >
+            メッセージ
           </label>
           <textarea
             id="body"
             name="body"
             required
             rows={6}
-            placeholder="ENTER_TRANSMISSION_DATA_HERE..."
+            placeholder="メッセージ内容を入力してください"
             class="w-full resize-none"
           />
         </div>
 
         <div class="flex items-center justify-between pt-4">
-          <div class="mono text-[10px] text-sub">
-            {status === 'TRANSMITTING' ? 'STATUS: TRANSMITTING...' : 'STATUS: READY_TO_SEND'}
+          <div class="mono text-xs" style={{ color: 'var(--text-sub)' }}>
+            {status === 'TRANSMITTING' ? '送信中...' : '入力待ち'}
           </div>
           <button
             type="submit"
@@ -161,14 +188,21 @@ export default function ContactForm() {
             class="btn disabled-opacity-50"
             style={{ width: 'auto', paddingLeft: '20px', paddingRight: '20px' }}
           >
-            {status === 'TRANSMITTING' ? 'SENDING...' : 'INITIATE_TRANSMISSION'}
+            {status === 'TRANSMITTING' ? '送信中...' : '送信する'}
           </button>
         </div>
       </form>
 
       {/* 送信中のログ表示 */}
       {status === 'TRANSMITTING' && (
-        <div class="mt-8 pt-4 border-t border-border-line mono text-[10px] text-accent-red opacity-80">
+        <div
+          class="mt-8 pt-4 mono text-xs"
+          style={{
+            borderTop: '1px solid var(--border-color)',
+            color: 'var(--accent-red)',
+            opacity: 0.8,
+          }}
+        >
           {logs.map((log) => (
             <p key={log}>{log}</p>
           ))}

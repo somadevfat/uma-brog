@@ -12,7 +12,7 @@ describe('HtmlShell', () => {
 
     // ## Assert ##
     const html = JSON.stringify(node)
-    expect(html).toContain('PAGE // UMA-BLOG')
+    expect(html).toContain('PAGE // SOMA-DEVLOG')
   })
 
   it('正常系：タイトルがない場合、デフォルトタイトルが使用されること', () => {
@@ -21,7 +21,7 @@ describe('HtmlShell', () => {
 
     // ## Assert ##
     const html = JSON.stringify(node)
-    expect(html).toContain('UMA-BLOG // SYSTEM ARCHIVE')
+    expect(html).toContain('SOMA-DEVLOG // SYSTEM ARCHIVE')
   })
 
   it('正常系：説明文がない場合、デフォルトの説明文が使用されること', () => {

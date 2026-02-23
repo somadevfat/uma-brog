@@ -14,6 +14,10 @@ export interface Post {
   excerpt: string
   /** 記事のカテゴリ */
   category: string
+  /** サムネイル画像パス（任意） */
+  thumbnail?: string
+  /** タグ一覧 */
+  tags: string[]
   /** MDX コンポーネント */
   content: FC
 }

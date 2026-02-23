@@ -13,13 +13,14 @@ export const portfolioService = {
     // プロジェクト一覧を定義
     return [
       {
-        id: 'uma-brog',
-        title: 'UMA-BLOG / SYSTEM ARCHIVE',
+        id: 'SOMA-DEVLOG',
+        title: 'SOMA-DEVLOG / SYSTEM ARCHIVE',
         description:
           'Robust full-stack portfolio blog system with Retro-Future blueprint aesthetics. Built with HonoX and Cloudflare D1.',
         imageUrl: '/design/イメージ画.png',
         techStack: ['HonoX', 'Bun', 'Drizzle', 'D1', 'Better Auth'],
-        githubUrl: 'https://github.com/somah/uma-brog',
+        tags: ['HonoX', 'Cloudflare', 'TypeScript', 'Bun'],
+        githubUrl: 'https://github.com/somah/SOMA-DEVLOG',
         date: '2026-02-21',
       },
     ]

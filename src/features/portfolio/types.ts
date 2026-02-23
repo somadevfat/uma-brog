@@ -12,6 +12,8 @@ export interface Project {
   imageUrl?: string
   /** 使用技術のリスト */
   techStack: string[]
+  /** タグ一覧（検索・フィルタリングに利用） */
+  tags: string[]
   /** GitHub リポジトリのURL */
   githubUrl?: string
   /** ライブサイトのURL */

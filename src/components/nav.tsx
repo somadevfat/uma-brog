@@ -18,19 +18,7 @@ export const Nav = ({ path }: { path?: string }) => {
     <header class="site-header container">
       {/* サイトロゴとホームリンク */}
       <a href="/" class="logo">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          aria-hidden="true"
-        >
-          <circle cx="12" cy="12" r="10"></circle>
-          <path d="M12 2v20M2 12h20"></path>
-        </svg>
-        UMA-BLOG
+        SOMA-DEVLOG
       </a>
 
       {/* ナビゲーションリンク群 */}

@@ -12,7 +12,14 @@ export const blogService = {
   async getAllPosts(): Promise<Post[]> {
     // import.meta.glob を使用して MDX ファイルを一括読み込み
     const posts = import.meta.glob<{
-      frontmatter: { title: string; date: string; excerpt: string; category: Post['category'] }
+      frontmatter: {
+        title: string
+        date: string
+        excerpt: string
+        category: Post['category']
+        thumbnail?: string
+        tags?: string[]
+      }
       default: Post['content']
     }>('/src/content/blog/*.mdx', { eager: true })
 
@@ -27,6 +34,10 @@ export const blogService = {
             date: module.frontmatter.date,
             excerpt: module.frontmatter.excerpt,
             category: module.frontmatter.category,
+            // thumbnail が未指定の場合は undefined
+            thumbnail: module.frontmatter.thumbnail,
+            // tags が未指定の場合は空配列にフォールバック
+            tags: module.frontmatter.tags ?? [],
             content: module.default,
           }
         })

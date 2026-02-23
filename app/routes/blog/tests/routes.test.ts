@@ -58,6 +58,7 @@ describe('Blog Routes (Manual App)', () => {
           excerpt: 'Test Excerpt',
           date: '2026-01-01',
           category: 'SYS' as const,
+          tags: [],
           content: (() => null) as FC,
         },
       ]
@@ -66,7 +67,7 @@ describe('Blog Routes (Manual App)', () => {
       const res = await app.request('/blog')
       expect(res.status).toBe(200)
       const text = await res.text()
-      expect(text).toContain('SYSTEM_LOGS')
+      expect(text).toContain('LOGS')
       expect(text).toContain('Test Title')
     })
   })
@@ -91,6 +92,7 @@ describe('Blog Routes (Manual App)', () => {
           excerpt: 'Excerpt',
           date: '2026-01-01',
           category: 'SYS' as const,
+          tags: [],
           content: (() => null) as FC,
         },
       ]

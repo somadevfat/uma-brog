@@ -23,9 +23,9 @@ interface HtmlShellProps {
  */
 export const HtmlShell = ({ children, title, description }: Omit<HtmlShellProps, 'path'>) => {
   // ページタイトルをフォーマット
-  const displayTitle = title ? `${title} // UMA-BLOG` : 'UMA-BLOG // SYSTEM ARCHIVE'
+  const displayTitle = title ? `${title} // SOMA-DEVLOG` : 'SOMA-DEVLOG // SYSTEM ARCHIVE'
   // 説明文を決定
-  const displayDescription = description || 'Technical Archive and Portfolio Blog of uma-brog'
+  const displayDescription = description || 'Technical Archive and Portfolio Blog of SOMA-DEVLOG'
 
   return (
     <html lang="en">

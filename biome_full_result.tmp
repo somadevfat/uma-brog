@@ -97,8 +97,8 @@ src/components/layout/html-shell.tsx:11:59 lint/correctness/noUnusedFunctionPara
     10 │ 
   > 11 │ export const HtmlShell = ({ children, title, description, path }: HtmlShellProps) => {
        │                                                           ^^^^
-    12 │   const displayTitle = title ? `${title} // UMA-BROG` : 'UMA-BROG // SYSTEM ARCHIVE'
-    13 │   const displayDescription = description || 'Technical Archive and Portfolio Blog of uma-brog'
+    12 │   const displayTitle = title ? `${title} // SOMA-DEVLOG` : 'SOMA-DEVLOG // SYSTEM ARCHIVE'
+    13 │   const displayDescription = description || 'Technical Archive and Portfolio Blog of SOMA-DEVLOG'
   
   i Unused parameters might be the result of an incomplete refactoring.
   
