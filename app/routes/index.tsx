@@ -17,8 +17,8 @@ export default createRoute(async (c) => {
       <section class="hero">
         <div class="hero-bg-placeholder"></div>
         <div class="hero-content">
-          <h1>UMA-BLOG 事業詳細分析</h1>
-          <p>観点：人類を多惑星種族にするための「前哨基地（くさび）」としての月面ホテル</p>
+          <h1>SOMA HIRANO</h1>
+          <p>Next.js, React, Node.js, GCP, Cloudflare。エンドツーエンドのソリューション提供。</p>
         </div>
       </section>
 
