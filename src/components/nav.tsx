@@ -30,7 +30,7 @@ export const Nav = ({ path }: { path?: string }) => {
           <circle cx="12" cy="12" r="10"></circle>
           <path d="M12 2v20M2 12h20"></path>
         </svg>
-        GRU Space
+        UMA-BLOG
       </a>
 
       {/* ナビゲーションリンク群 */}

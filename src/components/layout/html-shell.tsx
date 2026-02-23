@@ -23,7 +23,7 @@ interface HtmlShellProps {
  */
 export const HtmlShell = ({ children, title, description }: Omit<HtmlShellProps, 'path'>) => {
   // ページタイトルをフォーマット
-  const displayTitle = title ? `${title} // UMA-BROG` : 'UMA-BROG // SYSTEM ARCHIVE'
+  const displayTitle = title ? `${title} // UMA-BLOG` : 'UMA-BLOG // SYSTEM ARCHIVE'
   // 説明文を決定
   const displayDescription = description || 'Technical Archive and Portfolio Blog of uma-brog'
 

@@ -14,7 +14,7 @@ export const portfolioService = {
     return [
       {
         id: 'uma-brog',
-        title: 'UMA-BROG / SYSTEM ARCHIVE',
+        title: 'UMA-BLOG / SYSTEM ARCHIVE',
         description:
           'Robust full-stack portfolio blog system with Retro-Future blueprint aesthetics. Built with HonoX and Cloudflare D1.',
         imageUrl: '/design/イメージ画.png',

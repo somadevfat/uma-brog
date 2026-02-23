@@ -17,7 +17,7 @@ export default createRoute(async (c) => {
       <section class="hero">
         <div class="hero-bg-placeholder"></div>
         <div class="hero-content">
-          <h1>GRU Space 事業詳細分析</h1>
+          <h1>UMA-BLOG 事業詳細分析</h1>
           <p>観点：人類を多惑星種族にするための「前哨基地（くさび）」としての月面ホテル</p>
         </div>
       </section>
