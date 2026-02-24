@@ -102,6 +102,8 @@ export const ContentCard = ({
   item: CardItem
   onTagClick?: (tag: string) => void
 }) => {
+  const isExternal = item.primaryHref?.startsWith('http')
+
   // カード内部のコンテンツ
   const content = (
     <>
@@ -111,12 +113,24 @@ export const ContentCard = ({
       </div>
 
       {/* タイトルと説明 */}
-      <h3>{item.title}</h3>
+      <h3>
+        {item.primaryHref ? (
+          <a
+            href={item.primaryHref}
+            class="card-main-link"
+            {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+          >
+            {item.title}
+          </a>
+        ) : (
+          item.title
+        )}
+      </h3>
       <p>{item.description}</p>
 
       {/* タグ一覧 */}
       {item.tags.length > 0 && (
-        <div class="post-tags">
+        <div class="post-tags" style={{ position: 'relative', zIndex: 10 }}>
           {item.tags.map((tag) =>
             onTagClick ? (
               <button
@@ -143,7 +157,7 @@ export const ContentCard = ({
 
       {/* 追加リンクボタン群（外部リンク等） */}
       {item.links.length > 0 && (
-        <div class="flex gap-2">
+        <div class="flex gap-2" style={{ position: 'relative', zIndex: 10 }}>
           {item.links.map((link) => (
             <a
               key={link.label}
@@ -161,21 +175,11 @@ export const ContentCard = ({
     </>
   )
 
-  // primaryHref がある場合はカード全体をリンクにする
-  if (item.primaryHref) {
-    const isExternal = item.primaryHref.startsWith('http')
-    return (
-      <a
-        href={item.primaryHref}
-        class="card card-link"
-        {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-      >
-        {content}
-      </a>
-    )
-  }
-
-  return <article class="card">{content}</article>
+  return (
+    <article class={`card ${item.primaryHref ? 'card-link' : ''}`} style={{ position: 'relative' }}>
+      {content}
+    </article>
+  )
 }
 
 // ---- 共通グリッドコンポーネント ----

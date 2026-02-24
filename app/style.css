@@ -297,6 +297,21 @@ nav.main-nav a.active {
   border-color: var(--accent-red);
 }
 
+.card-main-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-main-link::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
 .card-img {
   border: 1px solid var(--border-color);
   height: 120px;
