@@ -41,6 +41,10 @@ full_coverage.txt
 # Test results
 tests_output.txt
 
+# Playwright
+playwright-report/
+test-results/
+
 # Python
 __pycache__/
 *.pyc
