@@ -11,7 +11,8 @@ test.describe('ヘッダー - デスクトップ', () => {
   })
 
   // ナビゲーションの表示確認
-  test('デスクトップナビゲーションが表示されること', async ({ page }) => {
+  test('デスクトップナビゲーションが表示されること', async ({ page, isMobile }) => {
+    test.skip(!!isMobile, 'モバイル環境ではハンバーガーメニューに格納されるためスキップ')
     // ## Arrange ##
     const header = new HeaderPage(page)
 
