@@ -29,15 +29,13 @@ export default defineConfig({
     screenshot: 'only-on-failure',
   },
   projects: [
-    /** デスクトップ Chromium */
+    /**
+     * PC・モバイル両方のビューポート切り替えはテストコード側（test.use）で制御するため、
+     * プロジェクトは chromium（PC）1種類のみで起動し、ムダな実行や skip を防ぐ。
+     */
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    },
-    /** モバイル（レスポンシブ確認用） */
-    {
-      name: 'mobile-chrome',
-      use: { ...devices['Pixel 5'] },
     },
   ],
   /**

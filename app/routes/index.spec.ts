@@ -21,8 +21,7 @@ test.describe('ホームページ', () => {
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   })
 
-  test('ナビゲーションリンクがすべて表示されること', async ({ page, isMobile }) => {
-    test.skip(!!isMobile, 'モバイル環境ではハンバーガーメニューに格納されるためスキップ')
+  test('ナビゲーションリンクがすべて表示されること', async ({ page }) => {
     // ## Assert ##
     const nav = page.locator('nav.main-nav')
     await expect(nav.getByRole('link', { name: 'About' })).toBeVisible()
