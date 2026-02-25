@@ -43,7 +43,8 @@ export default function ContactForm() {
     addLog('データを暗号化中...')
 
     // フォームデータをオブジェクトに変換
-    const formData = new FormData(e.currentTarget as HTMLFormElement)
+    const target = e.target as HTMLFormElement
+    const formData = new FormData(target)
     const senderName = formData.get('senderName') as string
     const senderEmail = formData.get('senderEmail') as string
     const subject = formData.get('subject') as string
