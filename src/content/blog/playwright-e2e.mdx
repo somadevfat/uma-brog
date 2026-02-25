@@ -1,0 +1,25 @@
+export const frontmatter = {
+  title: "PlaywrightとMSWによる堅牢なE2Eテスト",
+  date: "2026-02-25",
+  excerpt: "モバイルとデスクトップ両方のUI挙動を一度に検証するPlaywrightの設定と、MSWを使ったAPIモックの構築について。",
+  category: "technical",
+  thumbnail: "/images/blog/playwright.png",
+  tags: ["Testing", "Playwright", "MSW"],
+};
+
+# LOG: E2E_TESTING_001
+
+UIがユーザーの期待通りに動作するかを保証するため、Playwrightを導入してエンドツーエンド(E2E)テストを自動化しました。
+
+## レスポンシブテストの最適化
+
+最初は「デスクトップ環境」と「モバイル環境」を別々に用意してすべてのテストを2回ずつ回していましたが、スキップ処理が散乱する結果となりました。
+
+現在は`playwright.config.ts`のプロジェクトを1つに統合し、コード内で以下のように解像度を動的に切り替えています：
+
+```typescript
+test.use({ viewport: { width: 375, height: 667 } })
+```
+
+これにより、1回のテスト実行（`bun run test:e2e`）の中で、PCとスマホ両方の動作確認をスムーズに行うことができ、余分な実行時間を大幅に削減できました。
+さらに、MSW (Mock Service Worker) と連携することで、フォーム送信などのAPIリクエストも安定してモックできています。

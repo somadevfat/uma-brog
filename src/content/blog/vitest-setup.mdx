@@ -1,0 +1,20 @@
+export const frontmatter = {
+  title: "Vitestによる100%カバレッジの達成手法",
+  date: "2026-02-24",
+  excerpt: "HonoX環境におけるVitestを使用したロジックテストのベストプラクティスとカバレッジ100%の道のり。",
+  category: "technical",
+  thumbnail: "/images/blog/vitest.png",
+  tags: ["Testing", "Vitest", "TypeScript"],
+};
+
+# LOG: VITEST_TESTING_001
+
+テスト駆動開発(TDD)を実践する上で、どの部分をテストするか明確な境界線を引くことが重要です。
+本プロジェクトでは、**UIやルーティングはPlaywrightに任せ、Vitestは純粋なTypeScriptのロジック層（サービス、フック、ユーティリティ）のテストに専念**させるアーキテクチャを採用しています。
+
+## テストの責務分担
+
+1. **Vitest**: `.ts` ファイルのみを対象とし、DBモック（Drizzle ORM）を用いたロジックの振る舞いを検証する。
+2. **Playwright**: `.tsx` ファイルを含む画面全体とユーザーの操作（E2E）を検証する。
+
+これにより、フロントエンドとバックエンドが混在するフルスタック環境でも、カバレッジ100%を維持しつつスピーディなテストサイクルを実現しています。
