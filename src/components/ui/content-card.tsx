@@ -64,7 +64,7 @@ export const projectToCardItem = (project: Project): CardItem => ({
   description: project.description,
   thumbnail: project.imageUrl,
   tags: project.tags,
-  primaryHref: project.liveUrl || project.githubUrl,
+  primaryHref: `/portfolio/${project.id}`,
   links: [
     ...(project.githubUrl ? [{ label: 'GitHub', href: project.githubUrl, external: true }] : []),
     ...(project.liveUrl ? [{ label: 'Live', href: project.liveUrl, external: true }] : []),

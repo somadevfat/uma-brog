@@ -20,4 +20,7 @@ export interface Project {
   liveUrl?: string
   /** プロジェクトの作成日または公開日 */
   date: string
+  /** MDXコンテンツのコンポーネント（任意） */
+  // biome-ignore lint/suspicious/noExplicitAny: <hono mdx component>
+  content?: any
 }

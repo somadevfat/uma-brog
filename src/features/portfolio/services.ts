@@ -10,41 +10,51 @@ export const portfolioService = {
    * @returns {Promise<Project[]>} プロジェクトのリスト。
    */
   async getAllProjects(): Promise<Project[]> {
-    // プロジェクト一覧を定義
-    return [
-      {
-        id: 'SOMA-DEVLOG',
-        title: 'SOMA-DEVLOG / システムアーカイブ',
-        description:
-          'HonoXとCloudflare D1で構築された、レトロフューチャーでブループリントな美学を持つ堅牢なフルスタックポートフォリオブログシステム。',
-        imageUrl: '/design/イメージ画.png',
-        techStack: ['HonoX', 'Bun', 'Drizzle', 'D1', 'Better Auth'],
-        tags: ['HonoX', 'Cloudflare', 'TypeScript', 'Bun'],
-        githubUrl: 'https://github.com/somah/SOMA-DEVLOG',
-        date: '2026-02-21',
-      },
-      {
-        id: 'ASTRAL-TRADER',
-        title: 'アストラルトレーダー / MQL5 EA',
-        description:
-          'MT5環境で動作する高度な自動売買エキスパートアドバイザー。ボラティリティと価格アクションの分析に基づき、XAUUSD市場での取引を自動化します。',
-        imageUrl: undefined, // 画像がない場合のテスト用
-        techStack: ['MQL5', 'MetaTrader 5', 'C++'],
-        tags: ['MQL5', 'Trading', 'Algorithm', 'Forex'],
-        githubUrl: 'https://github.com/somah/astral-trader',
-        date: '2025-11-15',
-      },
-      {
-        id: 'NEO-KANBAN',
-        title: 'ネオ・カンバン / タスク管理アプリ',
-        description:
-          'TDDとDDD（ドメイン駆動設計）の実践として構築されたモダンなタスク管理ツール。ドラッグ＆ドロップによる直感的な操作と、リアルタイムな状態同期を実現。',
-        imageUrl: '/design/イメージ画.png', // サンプル画像を使用
-        techStack: ['React', 'Next.js', 'TailwindCSS', 'Zod', 'Prisma'],
-        tags: ['React', 'Next.js', 'DDD', 'TDD'],
-        githubUrl: 'https://github.com/somah/neo-kanban',
-        date: '2025-08-30',
-      },
-    ]
+    const files = import.meta.glob<{
+      frontmatter: {
+        title: string
+        date: string
+        description: string
+        imageUrl?: string
+        techStack?: string[]
+        tags?: string[]
+        githubUrl?: string
+        liveUrl?: string
+      }
+      // biome-ignore lint/suspicious/noExplicitAny: <hono mdx component>
+      default: any
+    }>('/src/content/portfolio/*.mdx', { eager: true })
+
+    return (
+      Object.entries(files)
+        .map(([path, module]) => {
+          const id = path.split('/').pop()?.replace('.mdx', '') ?? ''
+          return {
+            id,
+            title: module.frontmatter.title,
+            description: module.frontmatter.description,
+            imageUrl: module.frontmatter.imageUrl,
+            // 未指定の場合は空配列にフォールバック
+            techStack: module.frontmatter.techStack ?? [],
+            tags: module.frontmatter.tags ?? [],
+            githubUrl: module.frontmatter.githubUrl,
+            liveUrl: module.frontmatter.liveUrl,
+            date: module.frontmatter.date,
+            content: module.default,
+          }
+        })
+        // 日付の新しい順（降順）にソート
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    )
+  },
+
+  /**
+   * 指定されたID(スラッグ)のプロジェクトを取得します。
+   * @param {string} id - プロジェクトのID（MDXのファイル名）
+   * @returns {Promise<Project | undefined>} 一致するプロジェクト、見つからない場合は undefined。
+   */
+  async getProjectById(id: string): Promise<Project | undefined> {
+    const all = await this.getAllProjects()
+    return all.find((p) => p.id === id)
   },
 }
