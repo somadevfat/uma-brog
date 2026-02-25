@@ -61,7 +61,7 @@ export default function ContactForm() {
       })
 
       if (!res.ok) {
-        throw new Error('NETWORK_RESPONSE_NOT_OK')
+        throw new Error('送信に失敗しました')
       }
 
       // 送信成功時のログ演出
@@ -146,7 +146,7 @@ export default function ContactForm() {
             name="senderEmail"
             type="email"
             required
-            placeholder="email@example.com"
+            placeholder="例: taro@example.com"
             class="w-full"
           />
         </div>

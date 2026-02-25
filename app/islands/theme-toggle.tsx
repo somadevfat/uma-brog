@@ -32,8 +32,9 @@ const applyTheme = (theme: Theme): void => {
 }
 
 /**
- * テーマ（ライト/ダーク）切り替えトグルコンポーネント。
- * クライアントサイドの Island として動作し、localStorage に設定を永続化する。
+ * テーマ（ライト/ダーク）切り替えトグル Island コンポーネント。
+ * - ルートファイル（_renderer.tsx）から直接インポートして使用すること。
+ * - クライアントサイドで動作し、localStorage に設定を永続化する。
  * @returns {JSX.Element} テーマ切り替えボタン
  */
 export default function ThemeToggle() {
