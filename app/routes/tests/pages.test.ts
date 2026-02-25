@@ -12,7 +12,7 @@ describe('Static Page Routes', () => {
     // ## Assert ##
     expect(res.status).toBe(200)
     const text = await res.text()
-    expect(text).toContain('CONTACT')
+    expect(text).toContain('お問い合わせ')
   })
 
   it('GET /portfolio：200 を返し、ポートフォリオ内容が含まれていること', async () => {

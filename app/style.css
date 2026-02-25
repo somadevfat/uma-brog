@@ -728,26 +728,263 @@ textarea:focus {
 }
 
 /* ============================================
+   ハンバーガーメニュー（モバイル専用）
+   ============================================ */
+
+/* モバイルメニューはデフォルトで非表示 */
+.mobile-menu-wrapper {
+  display: none;
+}
+
+/* ハンバーガーボタン */
+.hamburger-btn {
+  background: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-sub);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  z-index: 1100;
+  position: relative;
+}
+
+.hamburger-btn:hover {
+  color: var(--text-main);
+  border-color: var(--accent-red);
+}
+
+/* ハンバーガーアイコン（3本線 → ×） */
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+  gap: 4px;
+}
+
+.hamburger-line {
+  display: block;
+  width: 18px;
+  height: 1.5px;
+  background: currentColor;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* 展開時のアニメーション（× 形状に変化） */
+.hamburger-icon.is-open .hamburger-line:first-child {
+  transform: translateY(5.5px) rotate(45deg);
+}
+
+.hamburger-icon.is-open .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.hamburger-icon.is-open .hamburger-line:last-child {
+  transform: translateY(-5.5px) rotate(-45deg);
+}
+
+/* オーバーレイ背景 */
+.mobile-nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1050;
+}
+
+/* 背景ボタン（透明、全画面カバー） */
+.mobile-nav-backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  cursor: default;
+  padding: 0;
+  margin: 0;
+}
+
+/* スライドインナビパネル */
+.mobile-nav-panel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 280px;
+  max-width: 80vw;
+  height: 100%;
+  background-color: var(--bg-color);
+  border-left: 1px solid var(--border-color);
+  padding: 80px 24px 32px 24px;
+  overflow-y: auto;
+  animation: slideInRight 0.25s ease-out;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ナビリンクリスト */
+.mobile-nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* 各ナビリンク */
+.mobile-nav-link {
+  display: block;
+  padding: 14px 16px;
+  color: var(--text-sub);
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+  border-left: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.mobile-nav-link:hover {
+  color: var(--text-main);
+  background-color: rgba(201, 58, 58, 0.05);
+}
+
+.mobile-nav-link.active {
+  color: var(--text-main);
+  border-left-color: var(--accent-red);
+  background-color: rgba(201, 58, 58, 0.08);
+}
+
+/* ============================================
    レスポンシブ
    ============================================ */
+
+/* タブレット (601px〜900px) */
 @media (max-width: 900px) {
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  /* コンタクトページのグリッドを1カラムに変更 */
+  .md-grid-cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .md-col-span-2 {
+    grid-column: span 1 / span 1;
+  }
+
+  /* ナビゲーションのギャップを縮小 */
+  nav.main-nav {
+    gap: 24px;
+  }
 }
 
+/* モバイル (600px以下) */
 @media (max-width: 600px) {
+  /* デスクトップナビを非表示にし、ハンバーガーメニューを表示 */
   nav.main-nav {
     display: none;
   }
+
+  .mobile-menu-wrapper {
+    display: block;
+  }
+
+  /* グリッドを1カラムに変更 */
   .projects-grid {
     grid-template-columns: 1fr;
   }
+
+  /* ヒーローセクションのモバイル対応 */
+  .hero {
+    height: 200px;
+  }
+
   .hero-content {
     left: 20px;
     right: 20px;
   }
+
   .hero h1 {
-    font-size: 24px;
+    font-size: 22px;
+  }
+
+  .hero p {
+    font-size: 12px;
+  }
+
+  /* ヒーローのソーシャルリンクを折り返し可能に */
+  .hero-links {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .hero-link {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  /* コンテナの左右パディング調整 */
+  .container {
+    padding: 0 16px;
+  }
+
+  /* セクションタイトルのサイズ調整 */
+  .section-title {
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  /* カードの内部パディング調整 */
+  .card {
+    padding: 16px;
+  }
+
+  /* フォームフィールドの余白調整 */
+  .blueprint-border.p-8 {
+    padding: 1rem;
+  }
+
+  .blueprint-border.p-6 {
+    padding: 1rem;
+  }
+
+  /* ボタンのサイズ調整 */
+  .btn {
+    width: 100%;
+    padding: 10px 0;
+  }
+
+  /* ロゴのフォントサイズ調整 */
+  .logo {
+    font-size: 16px;
+  }
+
+  /* 検索バーの幅調整 */
+  .search-bar {
+    max-width: 100%;
+  }
+
+  /* gap-12 をモバイルで縮小 */
+  .gap-12 {
+    gap: 1.5rem;
   }
 }

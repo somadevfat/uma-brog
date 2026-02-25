@@ -1,11 +1,12 @@
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { HtmlShell } from '../../src/components/layout/html-shell'
+import MobileMenu from '../islands/mobile-menu'
 import ThemeToggle from '../islands/theme-toggle'
 
 /**
  * アプリケーションのグローバルレンダラー。
  * 共通の HTML シェルとメインレイアウトを適用します。
- * Island コンポーネント（ThemeToggle）はルートファイルから直接インポートし、
+ * Island コンポーネント（ThemeToggle, MobileMenu）はルートファイルから直接インポートし、
  * children のフロー内で使用することでハイドレーションを確実にする。
  */
 export default jsxRenderer(({ children, ...props }, c) => {
@@ -31,6 +32,7 @@ export default jsxRenderer(({ children, ...props }, c) => {
         <a href="/" class="logo">
           SOMA-DEVLOG
         </a>
+        {/* デスクトップナビゲーション（600px超で表示） */}
         <nav class="main-nav">
           {links.map((link) => (
             <a
@@ -46,9 +48,11 @@ export default jsxRenderer(({ children, ...props }, c) => {
             </a>
           ))}
         </nav>
-        {/* テーマトグル Island: ルートファイル内で直接使用 */}
+        {/* テーマトグル + モバイルメニュー Island */}
         <div class="header-actions">
           <ThemeToggle />
+          {/* モバイル専用ハンバーガーメニュー（600px以下で表示） */}
+          <MobileMenu links={links} currentPath={path} />
         </div>
       </header>
       {/* メインコンテンツ */}
