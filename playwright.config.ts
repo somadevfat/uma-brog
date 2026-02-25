@@ -46,7 +46,7 @@ export default defineConfig({
    * CI では既存サーバーを再利用しない。
    */
   webServer: {
-    command: 'VITE_MSW=true npm run dev',
+    command: 'VITE_MSW=true bun run dev',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
