@@ -505,19 +505,8 @@ html[data-theme="dark"] .theme-toggle .icon-moon {
 }
 
 /* ============================================
-   装飾要素
+   スキャンラインエフェクト（ダークモードのみ表示）
    ============================================ */
-.floating-star {
-  position: fixed;
-  bottom: 40px;
-  right: 40px;
-  width: 40px;
-  height: 40px;
-  pointer-events: none;
-  z-index: 100;
-}
-
-/* スキャンラインエフェクト（ダークモードのみ表示） */
 .scanline {
   position: fixed;
   top: 0;

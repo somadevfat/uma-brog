@@ -60,13 +60,6 @@ export const HtmlShell = ({ children, title, description }: Omit<HtmlShellProps,
         {/* レトロフューチャーな走査線エフェクト（ダークモード時のみ表示） */}
         <div class="scanline" />
         {children}
-
-        {/* 装飾用の浮遊する星形アイコン */}
-        <div class="floating-star">
-          <svg viewBox="0 0 50 50" fill="#666" aria-hidden="true">
-            <path d="M25 0 L28 22 L50 25 L28 28 L25 50 L22 28 L0 25 L22 22 Z" />
-          </svg>
-        </div>
       </body>
     </html>
   )
