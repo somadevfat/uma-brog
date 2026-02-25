@@ -1,4 +1,5 @@
 import type { Child } from 'hono/jsx'
+import ThemeToggle from '../../../app/islands/theme-toggle'
 import { Nav } from '../nav'
 
 /**
@@ -21,7 +22,10 @@ export const MainLayout = ({ children, path }: MainLayoutProps) => {
   return (
     <>
       {/* 共通ナビゲーション */}
-      <Nav path={path} />
+      <div class="flex items-center justify-between container">
+        <Nav path={path} />
+        <ThemeToggle />
+      </div>
       {/* メインコンテンツエリア */}
       <main class="container">{children}</main>
     </>
