@@ -20,12 +20,18 @@ export default defineConfig({
   test: {
     environment: 'node',
     include: ['**/*.test.ts', '**/*.test.tsx'],
-    // カバレッジ計測の設定
+    // カバレッジ計測の設定（対象は .ts のみ）
     coverage: {
       provider: 'istanbul',
       reporter: ['text', 'json', 'html'],
-      include: ['src/**', 'app/**'],
-      exclude: ['**/*.test.ts', '**/*.test.tsx', '**/tests/**', 'app/client.ts'],
+      include: ['src/**/*.ts', 'app/**/*.ts'],
+      exclude: [
+        '**/*.test.ts',
+        '**/*.tsx', // ページ・UIコンポーネントは Playwright でテストするため除外
+        'app/client.ts',
+        '**/*.d.ts',
+        '**/types.ts',
+      ],
       // 各項目の閾値を 100% に設定
       /*
       thresholds: {
