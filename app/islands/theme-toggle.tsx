@@ -1,63 +1,71 @@
 import { useEffect, useState } from 'hono/jsx'
 
+/** テーマの型定義 */
+type Theme = 'light' | 'dark'
+
+/** localStorage のキー */
+const STORAGE_KEY = 'theme-preference'
+
+/**
+ * 現在の有効テーマを取得する。
+ * localStorage に保存されていればそれを使い、なければシステム設定を参照する。
+ * @returns {Theme} 現在のテーマ
+ */
+const getEffectiveTheme = (): Theme => {
+  // localStorage から保存済み設定を取得
+  const saved = localStorage.getItem(STORAGE_KEY) as Theme | null
+  if (saved === 'light' || saved === 'dark') {
+    return saved
+  }
+
+  // システムのカラースキーム設定をフォールバックとして使用
+  return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+}
+
+/**
+ * テーマを DOM に適用する。
+ * html 要素の data-theme 属性を更新する。
+ * @param {Theme} theme - 適用するテーマ
+ */
+const applyTheme = (theme: Theme): void => {
+  document.documentElement.setAttribute('data-theme', theme)
+}
+
 /**
  * テーマ（ライト/ダーク）切り替えトグルコンポーネント。
- * クライアントサイドでのみ動作し、localStorage と ドキュメントの要素属性を更新します。
+ * クライアントサイドの Island として動作し、localStorage に設定を永続化する。
  * @returns {JSX.Element} テーマ切り替えボタン
  */
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<'light' | 'dark' | 'system'>('system')
+  const [theme, setTheme] = useState<Theme>('light')
 
-  // 初期化時に保存されたテーマを読み込む
+  // 初回マウント時にテーマを検出して適用
   useEffect(() => {
-    const savedTheme = localStorage.getItem('theme-preference') as 'light' | 'dark' | null
-    if (savedTheme) {
-      setTheme(savedTheme)
-      applyTheme(savedTheme)
-    } else {
-      // 保存されていない場合はシステム設定に基づき適用
-      const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-      applyTheme(isDarkMode ? 'dark' : 'light', true)
-    }
+    const effective = getEffectiveTheme()
+    setTheme(effective)
+    applyTheme(effective)
   }, [])
 
-  // テーマを DOM に適用する関数
-  const applyTheme = (newTheme: 'light' | 'dark', isSystemFallback = false) => {
-    // <html> 要素の属性を利用して CSS 側で状態を上書きできるように設定
-    document.documentElement.setAttribute('data-theme', newTheme)
-
-    // システムフォールバックでなければ localStorage に保存
-    if (!isSystemFallback) {
-      localStorage.setItem('theme-preference', newTheme)
-    }
-  }
-
-  // トグルクリック時の処理
-  const toggleTheme = () => {
-    let newTheme: 'light' | 'dark'
-
-    if (theme === 'system') {
-      const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-      newTheme = isDarkMode ? 'light' : 'dark' // 現在の設定と逆にする
-    } else {
-      newTheme = theme === 'dark' ? 'light' : 'dark'
-    }
-
-    setTheme(newTheme)
-    applyTheme(newTheme)
+  // テーマ切り替えハンドラ
+  const handleToggle = () => {
+    const next: Theme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(next)
+    applyTheme(next)
+    localStorage.setItem(STORAGE_KEY, next)
   }
 
   return (
     <button
       type="button"
-      onClick={toggleTheme}
+      onClick={handleToggle}
       class="theme-toggle"
-      aria-label="Toggle theme"
-      title="Toggle Light/Dark Mode"
+      aria-label={theme === 'dark' ? 'ライトモードに切り替え' : 'ダークモードに切り替え'}
     >
+      {/* 月アイコン（ライトモード時に表示 → クリックでダークへ） */}
       <svg
-        width="20"
-        height="20"
+        class="icon-moon"
+        width="18"
+        height="18"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -65,7 +73,22 @@ export default function ThemeToggle() {
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <title>Theme Toggle Icon</title>
+        <title>ダークモードに切り替え</title>
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+      </svg>
+      {/* 太陽アイコン（ダークモード時に表示 → クリックでライトへ） */}
+      <svg
+        class="icon-sun"
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <title>ライトモードに切り替え</title>
         <circle cx="12" cy="12" r="5" />
         <line x1="12" y1="1" x2="12" y2="3" />
         <line x1="12" y1="21" x2="12" y2="23" />

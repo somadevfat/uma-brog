@@ -21,11 +21,8 @@ interface MainLayoutProps {
 export const MainLayout = ({ children, path }: MainLayoutProps) => {
   return (
     <>
-      {/* 共通ナビゲーション */}
-      <div class="flex items-center justify-between container">
-        <Nav path={path} />
-        <ThemeToggle />
-      </div>
+      {/* 共通ナビゲーション（テーマトグルをアクションとして渡す） */}
+      <Nav path={path} headerActions={<ThemeToggle />} />
       {/* メインコンテンツエリア */}
       <main class="container">{children}</main>
     </>

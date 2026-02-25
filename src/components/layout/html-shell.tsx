@@ -1,3 +1,4 @@
+import { raw } from 'hono/html'
 import type { Child } from 'hono/jsx'
 import { Link, Script } from 'honox/server'
 
@@ -14,6 +15,21 @@ interface HtmlShellProps {
   /** 現在のパス（未使用だが型定義に含まれる） */
   path: string
 }
+
+/**
+ * ページ読み込み時のテーマちらつき (FOUC) を防止するインラインスクリプト。
+ * CSS・JSの評価前に実行され、data-theme 属性を即座にセットする。
+ */
+const themeInitScript = raw(`<script>
+(function(){
+  var t = localStorage.getItem('theme-preference');
+  if (t === 'dark' || t === 'light') {
+    document.documentElement.setAttribute('data-theme', t);
+  } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    document.documentElement.setAttribute('data-theme', 'dark');
+  }
+})();
+</script>`)
 
 /**
  * アプリケーション全体の HTML 基本構造を定義するコンポーネント。
@@ -35,11 +51,13 @@ export const HtmlShell = ({ children, title, description }: Omit<HtmlShellProps,
         <meta name="description" content={displayDescription} />
         <title>{displayTitle}</title>
         <link rel="icon" href="/favicon.ico" />
+        {/* テーマ初期化スクリプト（FOUC防止: CSSより前に実行） */}
+        {themeInitScript}
         <Link href="/app/style.css" rel="stylesheet" />
         <Script src="/app/client.ts" async />
       </head>
       <body>
-        {/* レトロフューチャーな走査線エフェクト */}
+        {/* レトロフューチャーな走査線エフェクト（ダークモード時のみ表示） */}
         <div class="scanline" />
         {children}
 
